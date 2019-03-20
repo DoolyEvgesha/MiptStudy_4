@@ -1,0 +1,23 @@
+virtual void Tui::getWinSize(): 				118 32
+Same function(x,y): 				118 32
+Tui::Tui(): 				118 32
+virtual void Tui::draw(): 				118 32
+virtual void Tui::run(): 				118 32
+On winch called
+virtual void Tui::getWinSize(): 				143 37
+Same function(x,y): 				143 37
+Tui::Tui(): 				143 37
+virtual void Tui::draw(): 				143 37
+virtual void Tui::run(): 				143 37
+On winch called
+virtual void Tui::getWinSize(): 				118 32
+Same function(x,y): 				118 32
+Tui::Tui(): 				118 32
+virtual void Tui::draw(): 				118 32
+virtual void Tui::run(): 				118 32
+On winch called
+virtual void Tui::getWinSize(): 				143 37
+Same function(x,y): 				143 37
+Tui::Tui(): 				143 37
+virtual void Tui::draw(): 				143 37
+virtual void Tui::run(): 				143 37

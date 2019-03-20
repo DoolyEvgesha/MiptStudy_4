@@ -1,0 +1,8 @@
+*CMake* 
+*.o
+*a.out
+*swp*
+*vgcore*
+*idea*
+*cmake*
+*.zip*

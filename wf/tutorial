@@ -1,0 +1,4 @@
+How to use gtests
+export GTEST_DIR=../googletest-master/googletest
+make gtest-all.o
+
