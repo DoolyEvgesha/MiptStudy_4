@@ -5,7 +5,7 @@
 
 #define PR_COOR(FUNC, x, y)                                 \
     do{                                                     \
-        fout << FUNC << ": \t\t\t\t" << x << " " << y << std::endl; \
+        fout << FUNC << ": \t\t" << x << " " << y << std::endl; \
     }while(0)
 
 static std::ofstream fout("logFile.txt");

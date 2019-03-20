@@ -44,30 +44,22 @@ void Tui::getWinSize()
     y = ws.ws_row;
 
     PR_COOR(__PRETTY_FUNCTION__, ws.ws_col, ws.ws_row);
-    PR_COOR("Same function(x,y)", x, y);
 }
 
 static void onwinch(int x)
 {
     fout << "On winch called\n";
     View * v = View::get();
-    //v->getWinSize();
+
+    v->clearScreen();
     v->draw();
-    ///???????
     v->run();
-//FJDSFKLKJFSNLDKNVSCKLSNSKADJNCSKLDKCNCDKSLCDKNXSKKCNK
-    //PR_COOR(__PRETTY_FUNCTION__, x, y);
 }
 
 Tui::Tui()
 {
     getWinSize();
-  /*  struct winsize ws;
-    ioctl(1, TIOCGWINSZ, &ws);
 
-    x = ws.ws_col;
-    y = ws.ws_row;
-*/
     PR_COOR(__PRETTY_FUNCTION__, x, y);
 
     struct sigaction sa = {0};
@@ -78,6 +70,7 @@ Tui::Tui()
 
 void Tui::clearScreen()
 {
+    fout << "clearScreen\n";
     printf("\e[H\e[J");
 }
 

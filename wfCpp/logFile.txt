@@ -1,23 +1,25 @@
-virtual void Tui::getWinSize(): 				118 32
-Same function(x,y): 				118 32
-Tui::Tui(): 				118 32
-virtual void Tui::draw(): 				118 32
-virtual void Tui::run(): 				118 32
+return new Tui
+return new Tui
+return new Tui
+View dctor
+43 37
+clearScreen
+virtual void Tui::draw(): 		143 37
+virtual void Tui::run(): 		143 37
 On winch called
-virtual void Tui::getWinSize(): 				143 37
-Same function(x,y): 				143 37
-Tui::Tui(): 				143 37
-virtual void Tui::draw(): 				143 37
-virtual void Tui::run(): 				143 37
+virtual void Tui::getWinSize(): 		115 27
+Tui::Tui(): 		115 27
+clearScreen
+clearScreen
+virtual void Tui::draw(): 		115 27
+virtual void Tui::run(): 		115 27
+clearScreen
 On winch called
-virtual void Tui::getWinSize(): 				118 32
-Same function(x,y): 				118 32
-Tui::Tui(): 				118 32
-virtual void Tui::draw(): 				118 32
-virtual void Tui::run(): 				118 32
-On winch called
-virtual void Tui::getWinSize(): 				143 37
-Same function(x,y): 				143 37
-Tui::Tui(): 				143 37
-virtual void Tui::draw(): 				143 37
-virtual void Tui::run(): 				143 37
+virtual void Tui::getWinSize(): 		143 37
+Tui::Tui(): 		143 37
+clearScreen
+clearScreen
+virtual void Tui::draw(): 		143 37
+virtual void Tui::run(): 		143 37
+clearScreen
+clearScreen
