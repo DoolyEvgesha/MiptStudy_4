@@ -9,17 +9,18 @@ View::~View()
     fout << "View dctor\n";
 }
 
-View * View::inst;
+View * View::inst = nullptr;
 
 //THE PROBLEM PROBABLY LIES HERE
 View * View::get()
 {
-    if(inst)
+    if(inst != nullptr)
     {
         fout << "return inst\n";
         return inst;
     }
 
     fout << "return new Tui\n";
-    return new Tui;
+    inst = new Tui;
+    return inst;
 }

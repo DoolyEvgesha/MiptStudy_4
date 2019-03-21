@@ -2,7 +2,7 @@
 #define TUI_H
 
 #include "View.h"
-
+extern int pisdec;
 #define PR_COOR(FUNC, x, y)                                 \
     do{                                                     \
         fout << FUNC << ": \t\t" << x << " " << y << std::endl; \

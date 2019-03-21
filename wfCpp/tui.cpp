@@ -5,7 +5,7 @@
 #include <fstream>
 
 #include "tui.h"
-
+int pisdec = 0;
 void Tui::drawLineX(int start, int length, int y)
 {
     for(int i = start; i < start + length; ++i)
@@ -51,9 +51,10 @@ static void onwinch(int x)
     fout << "On winch called\n";
     View * v = View::get();
 
-    v->clearScreen();
+
     v->draw();
-    v->run();
+    //v->run();
+    pisdec = 1;
 }
 
 Tui::Tui()

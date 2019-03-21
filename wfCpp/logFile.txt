@@ -1,25 +1,7 @@
 return new Tui
-return new Tui
-return new Tui
 View dctor
-43 37
+ze(): 		132 30
+Tui::Tui(): 		132 30
 clearScreen
-virtual void Tui::draw(): 		143 37
-virtual void Tui::run(): 		143 37
-On winch called
-virtual void Tui::getWinSize(): 		115 27
-Tui::Tui(): 		115 27
-clearScreen
-clearScreen
-virtual void Tui::draw(): 		115 27
-virtual void Tui::run(): 		115 27
-clearScreen
-On winch called
-virtual void Tui::getWinSize(): 		143 37
-Tui::Tui(): 		143 37
-clearScreen
-clearScreen
-virtual void Tui::draw(): 		143 37
-virtual void Tui::run(): 		143 37
-clearScreen
+virtual void Tui::draw(): 		132 30
 clearScreen
