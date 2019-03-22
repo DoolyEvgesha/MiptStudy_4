@@ -7,11 +7,11 @@
 View::~View()
 {
     fout << "View dctor\n";
+    inst = nullptr;
 }
 
 View * View::inst = nullptr;
 
-//THE PROBLEM PROBABLY LIES HERE
 View * View::get()
 {
     if(inst != nullptr)
@@ -24,3 +24,9 @@ View * View::get()
     inst = new Tui;
     return inst;
 }
+
+void View::setOnKey(KeyPressable * key)
+{
+    onkey_delegate = key;
+}
+

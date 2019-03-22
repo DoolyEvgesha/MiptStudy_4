@@ -1,8 +1,9 @@
 #ifndef TUI_H
 #define TUI_H
 
+#include <termios.h>
+
 #include "View.h"
-extern int pisdec;
 #define PR_COOR(FUNC, x, y)                                 \
     do{                                                     \
         fout << FUNC << ": \t\t" << x << " " << y << std::endl; \
@@ -16,6 +17,7 @@ private:
     int x;
     int y;
 
+    struct termios old;
 public:
     Tui();
     ~Tui();
@@ -27,6 +29,7 @@ public:
     void gotoxy(int, int);//moves to the certain possition
     void run();
     void clearScreen();
+
 };
 
 #endif

@@ -3,9 +3,10 @@
 #include <sys/ioctl.h>
 #include <signal.h>
 #include <fstream>
+#include <termios.h>
+#include <unistd.h>
 
 #include "tui.h"
-int pisdec = 0;
 void Tui::drawLineX(int start, int length, int y)
 {
     for(int i = start; i < start + length; ++i)
@@ -27,10 +28,14 @@ void Tui::drawLineY(int start, int length, int x)
 void Tui::draw()
 {
     clearScreen();
+    getWinSize();
+
     drawLineX(0, x, 0);
     drawLineY(0, y, 0);
     drawLineX(0, x, y);
     drawLineY(0, y, x);
+
+    fflush(stdout);
 
     PR_COOR(__PRETTY_FUNCTION__, x, y);
 }
@@ -51,21 +56,28 @@ static void onwinch(int x)
     fout << "On winch called\n";
     View * v = View::get();
 
-
     v->draw();
-    //v->run();
-    pisdec = 1;
 }
 
-Tui::Tui()
+Tui::Tui():
+    x(0),
+    y(0)
 {
-    getWinSize();
-
-    PR_COOR(__PRETTY_FUNCTION__, x, y);
+//tc get attr(0, &a)
+//tc set attr(0, TCSAFLUSH, &a) //the terminal doesn't wait for Enter
+//cf make raw(&a)
+//sigaction(SIGINT, SIGSEGV)
 
     struct sigaction sa = {0};
     sa.sa_handler = onwinch;
+    sa.sa_flags = SA_RESTART;
     sigaction(SIGWINCH, &sa, 0);
+
+    struct termios a;
+    tcgetattr(0, &a);
+    old = a;
+    cfmakeraw(&a);
+    tcsetattr(0, TCSAFLUSH, &a);
 }
 
 
@@ -77,6 +89,8 @@ void Tui::clearScreen()
 
 Tui::~Tui()
 {
+    tcsetattr(0, TCSAFLUSH, &old);
+
     clearScreen();
     printf("Goodbye\n");
 }
@@ -84,7 +98,20 @@ Tui::~Tui()
 void Tui::run()
 {
     PR_COOR(__PRETTY_FUNCTION__, x, y);
-    getchar();
+
+    while(1){
+        int c;
+        c = getchar();
+
+        if(c == 'q')
+            break;
+
+        if(c != -1)
+        {
+            if(onkey_delegate != nullptr)
+                onkey_delegate->onkey(c);
+        }
+    }
 
 }
 

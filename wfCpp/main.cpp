@@ -3,24 +3,15 @@
 
 #include "View.h"
 #include "tui.h"
+#include "human.h"
 #include <unistd.h>
 
 int main() {
-    //Tui t;
     View * v = View::get();
+    Human h;
+
     v->draw();
-
-    int c = '*';
-    do {
-        //v->run();
-        std::cout << "C = " << c << "@" << std::endl;
-        if(pisdec) {
-            pisdec = 0;
-        }
-        c = getchar();
-        std::cout << "C2 = " << c << "#" << std::endl;
-    } while(c == '*');
-
+    v->run();
 
     delete v;
     return 0;
