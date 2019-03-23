@@ -37,11 +37,8 @@ sf::String TileMap[HEIGHT_MAP] = {
 
 class Map{
     Map();
-    ~Map();
 };
 
 Map::Map() {}
-
-Map::~Map() {}
 
 #endif //MYGAME_MAP_H

@@ -7,29 +7,14 @@ sf::View view;
 
 sf::View getPlayerCoordForView(float x, float y)
 {
-    view.setCenter(x + 100, y);
-    return view;
-}
+    float tempX = x;
+    float tempY = y;
 
-void viewMap(float time) {
+    if (x < 320) tempX = 320;
+    if (y < 240) tempY = 240;
+    if (y > 554) tempY = 554;
 
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        view.move(0.1*time, 0);
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        view.move(0, 0.1 * time);
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        view.move(-0.1*time, 0);
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        view.move(0, -0.1*time);
-    }
-
-
+    view.setCenter(tempX, tempY);
 }
 
 #endif //MYGAME_VIEW_H
