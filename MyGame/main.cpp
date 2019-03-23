@@ -3,21 +3,16 @@
 
 #include "player/player.h"
 #include "map/map.h"
+#include "view/view.h"
+
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(640, 480), "My Game UwU");
+    //view.reset(sf::FloatRect(0, 0, 640, 480));
 
-    sf::Image heroimage;
-    heroimage.loadFromFile("images/hero.png");
+    Player p("hero.png", 250, 250, 96.0, 96.0);
 
-    sf::Texture herotexture;
-    herotexture.loadFromImage(heroimage);
-
-    sf::Sprite herosprite;
-    herosprite.setTexture(herotexture);
-    herosprite.setTextureRect(sf::IntRect(0, 192, 96, 96));
-    herosprite.setPosition(50, 25);
-
+    float CurrentFrame = 0;
     sf::Clock clock;
 
     while (window.isOpen())
@@ -33,20 +28,51 @@ int main() {
                 window.close();
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        {herosprite.move(-0.1 * time, 0);}
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left))) {
+            p.direction_    = 1;
+            p.speed_        = 0.1;
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        {herosprite.move(0.1 * time, 0);}
+            CurrentFrame    += 0.005 * time;
+            if (CurrentFrame > 3) CurrentFrame -= 3;
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        {herosprite.move(0, -0.1 * time);}
+            p.sprite_.setTextureRect(sf::IntRect(96 * int(CurrentFrame), 96, 96, 96));
+        }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        {herosprite.move(0, 0.1 * time);}
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right)))
+        {
+            p.direction_ = 0;
+            p.speed_ = 0.1;
 
+            CurrentFrame += 0.005 * time;
+            if (CurrentFrame > 3) CurrentFrame -= 3;
+
+            p.sprite_.setTextureRect(sf::IntRect(96  *  int(CurrentFrame), 192, 96, 96));
+        }
+
+
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up)))
+        {
+            p.direction_ = 3;
+            p.speed_ = 0.1;
+            CurrentFrame += 0.005 * time;
+            if (CurrentFrame > 3) CurrentFrame -= 3;
+            p.sprite_.setTextureRect(sf::IntRect(96 * int(CurrentFrame), 288, 96, 96));
+        }
+
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down)))
+        {
+            p.direction_    = 2;
+            p.speed_        = 0.1;
+            CurrentFrame    += 0.005 * time;
+            if (CurrentFrame > 3) CurrentFrame -= 3;
+            p.sprite_.setTextureRect(sf::IntRect(96  *  int(CurrentFrame), 0, 96, 96));
+        }
+
+        p.update(time);
+
+        window.setView(view);
         window.clear();
-        window.draw(herosprite);
+        window.draw(p.sprite_);
         window.display();
     }
 
