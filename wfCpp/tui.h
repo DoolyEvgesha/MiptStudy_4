@@ -29,6 +29,7 @@ public:
     void gotoxy(int, int);//moves to the certain possition
     void run();
     void clearScreen();
+    void snakePainter(Coord, Dir);
 
 };
 

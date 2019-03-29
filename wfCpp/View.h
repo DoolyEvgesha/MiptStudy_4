@@ -2,6 +2,7 @@
 #define VIEW_H
 
 #include "keypressable.h"
+#include "game.h"
 
 class View {
 public:
@@ -16,6 +17,11 @@ public:
 
     void                setOnKey    (KeyPressable *);
     KeyPressable *      onkey_delegate;
+
+    Game *              game;
+    void                setModel    (Game *);
+
+    void virtual        snakePainter(Coord c, Dir d)    = 0;
 };
 
 #endif

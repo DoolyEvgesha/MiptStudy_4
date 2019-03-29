@@ -5,13 +5,17 @@
 #include <fstream>
 #include <termios.h>
 #include <unistd.h>
+#include <functional>
+
+using namespace std::placeholders;
 
 #include "tui.h"
+
 void Tui::drawLineX(int start, int length, int y)
 {
     for(int i = start; i < start + length; ++i)
     {
-        gotoxy(y, i);
+        gotoxy(i, y);
         printf("*");
     }
 }
@@ -20,11 +24,12 @@ void Tui::drawLineY(int start, int length, int x)
 {
     for(int i = start; i < start + length; ++i)
     {
-        gotoxy(i, x);
+        gotoxy(x, i);
         printf("*");
     }
 }
 
+//gonna draw here snakes
 void Tui::draw()
 {
     clearScreen();
@@ -35,9 +40,9 @@ void Tui::draw()
     drawLineX(0, x, y);
     drawLineY(0, y, x);
 
+    game->paint(std::bind(&View::snakePainter, this, _1, _2));
     fflush(stdout);
 
-    PR_COOR(__PRETTY_FUNCTION__, x, y);
 }
 
 void Tui::getWinSize()
@@ -45,15 +50,12 @@ void Tui::getWinSize()
     struct winsize ws;
     ioctl(1, TIOCGWINSZ, &ws);
 
-    x = ws.ws_col;
-    y = ws.ws_row;
-
-    PR_COOR(__PRETTY_FUNCTION__, ws.ws_col, ws.ws_row);
+    x = ws.ws_row;
+    y = ws.ws_col;
 }
 
-static void onwinch(int x)
+void onwinch(int x)
 {
-    fout << "On winch called\n";
     View * v = View::get();
 
     v->draw();
@@ -63,11 +65,6 @@ Tui::Tui():
     x(0),
     y(0)
 {
-//tc get attr(0, &a)
-//tc set attr(0, TCSAFLUSH, &a) //the terminal doesn't wait for Enter
-//cf make raw(&a)
-//sigaction(SIGINT, SIGSEGV)
-
     struct sigaction sa = {0};
     sa.sa_handler = onwinch;
     sa.sa_flags = SA_RESTART;
@@ -83,7 +80,6 @@ Tui::Tui():
 
 void Tui::clearScreen()
 {
-    fout << "clearScreen\n";
     printf("\e[H\e[J");
 }
 
@@ -97,10 +93,9 @@ Tui::~Tui()
 
 void Tui::run()
 {
-    PR_COOR(__PRETTY_FUNCTION__, x, y);
-
     while(1){
         int c;
+        gotoxy(x/2, y/2);
         c = getchar();
 
         if(c == 'q')
@@ -115,8 +110,13 @@ void Tui::run()
 
 }
 
-void Tui::gotoxy(int y, int x)
+void Tui::gotoxy(int x, int y)
 {
-    printf("\e[%d;%dH", y, x);
+    printf("\e[%d;%dH", x, y);
 }
 
+void Tui::snakePainter(Coord c, Dir d)
+{
+    gotoxy(c.first, c.second);
+    putchar("^v><#"[d]);
+}

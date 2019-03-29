@@ -6,9 +6,9 @@
 
 class Human : public Control, KeyPressable{
 public:
-    Human();
-    ~Human();
-    void onkey(int);
+    Human               ();
+    ~Human              ();
+    void onkey          (int);
 
 };
 

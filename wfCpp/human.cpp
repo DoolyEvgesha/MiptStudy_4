@@ -8,7 +8,6 @@
 Human::Human()
 {
     View::get()->setOnKey(this);
-    std::cout<< "Human contr called\n";
 }
 
 Human::~Human()
