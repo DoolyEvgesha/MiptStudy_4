@@ -10,28 +10,28 @@ const int TILE_SIZE         = 0; //define it later!
 static sf::String TileMap[HEIGHT_MAP] = { //?????????? how to replace the loot?
         "0000000000000000000000000000000000000000",
         "0                                      0",
-        "0   s                                  0",
-        "0                  f                   0",
-        "0                                      0",
-        "0                              s       0",
-        "0         h             s              0",
-        "0                f                     0",
-        "0     s          f                     0",
-        "0                f                     0",
         "0                                      0",
         "0                                      0",
-        "0             s                s       0",
         "0                                      0",
-        "0                             h        0",
-        "0                      s               0",
         "0                                      0",
-        "0      f                               0",
-        "0                       f              0",
         "0                                      0",
-        "0            s                         0",
-        "0                               h      0",
         "0                                      0",
-        "0                     f                0",
+        "0                                      0",
+        "0                                      0",
+        "0                                      0",
+        "0                                      0",
+        "0                                      0",
+        "0                                      0",
+        "0                                      0",
+        "0                                      0",
+        "0                                      0",
+        "0                                      0",
+        "0                                      0",
+        "0                                      0",
+        "0              s    0000               0",
+        "0           000000000000               0",
+        "0           000000000000               0",
+        "0   f    h  000000000000               0",
         "0000000000000000000000000000000000000000",
 };
 
@@ -40,7 +40,7 @@ static void randomMapGenerate()
     int randomElementX = 0;
     int randomElementY = 0;
     srand(time(0));
-    int countStone = 2;
+    int countStone = 1;
 
     while(countStone > 0)
     {

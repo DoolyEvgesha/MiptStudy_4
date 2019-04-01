@@ -5,7 +5,7 @@
 
 sf::View view;
 
-sf::View getPlayerCoordForView(float x, float y)
+sf::View setPlayerCoordForView(float x, float y)
 {
     float tempX = x;
     float tempY = y;
