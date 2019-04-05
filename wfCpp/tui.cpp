@@ -65,6 +65,8 @@ Tui::Tui():
     x(0),
     y(0)
 {
+    setbuf(stdout, NULL);
+
     struct sigaction sa = {0};
     sa.sa_handler = onwinch;
     sa.sa_flags = SA_RESTART;

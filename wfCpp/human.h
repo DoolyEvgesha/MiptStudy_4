@@ -6,7 +6,7 @@
 
 class Human : public Control, KeyPressable{
 public:
-    Human               ();
+    Human               (Snake *);
     ~Human              ();
     void onkey          (int);
 

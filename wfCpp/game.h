@@ -7,6 +7,8 @@
 
 //auto
 
+class Control;
+
 enum Dir{
     UP      = 0,
     DOWN    = 1,
@@ -20,9 +22,11 @@ using Coord = std::pair<int, int>;
 class Snake{
 public:
     Snake();
+    Snake(const Snake &);
 
     std::list<Coord>        body;
     Dir                     direction;
+    Snake & operator=(Snake const &s);
 };
 
 using Rabbit = Coord;
@@ -32,10 +36,11 @@ class Game{
 public:
     Game();
 
-    std::list<Snake>       snakes;
+    std::list<Snake*>      snakes;
     std::list<Rabbit>      rabbits;
 
     void paint(SnakePainter p);
+    void add(Snake * p);
 };
 
 #endif

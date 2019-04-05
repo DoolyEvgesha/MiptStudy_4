@@ -31,6 +31,3 @@ void View::setModel(Game *g)
 {
     game = g;
 }
-
-
-

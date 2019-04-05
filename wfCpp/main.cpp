@@ -10,7 +10,9 @@
 int main() {
     Game g;
     View * v = View::get();
-    Human h;
+    Snake s;
+    Human h(&s);
+    g.add(&s);
 
     v->setModel(&g);
     v->draw();

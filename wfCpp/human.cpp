@@ -1,11 +1,12 @@
 #include <iostream>
 #include <fstream>
 
+#include "game.h"
 #include "human.h"
 #include "View.h"
 #include "tui.h"
 
-Human::Human()
+Human::Human(Snake * s):Control(s)
 {
     View::get()->setOnKey(this);
 }
@@ -17,5 +18,22 @@ Human::~Human()
 
 void Human::onkey(int n)
 {
-    std::cout << "The key was pressed: " << (char)n << std::endl;
+    printf("key pressed = %d ", n);
+
+    switch (n) {
+        case 'd':
+            snake->direction = RIGHT;
+            break;
+        case 'a':
+            snake->direction = LEFT;
+            break;
+        case 'w':
+            snake->direction = UP;
+            break;
+        case 's':
+            snake->direction = DOWN;
+            break;
+    }
+
+    View::get()->draw();
 }
