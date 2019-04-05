@@ -6,7 +6,7 @@
 #include "View.h"
 #include "tui.h"
 
-Human::Human(Snake * s):Control(s)
+Human::Human(Snake * s, Game *g):Control(s), game(g)
 {
     View::get()->setOnKey(this);
 }
@@ -18,6 +18,7 @@ Human::~Human()
 
 void Human::onkey(int n)
 {
+
     printf("key pressed = %d ", n);
 
     switch (n) {
@@ -34,6 +35,6 @@ void Human::onkey(int n)
             snake->direction = DOWN;
             break;
     }
-
+    game->move();
     View::get()->draw();
 }

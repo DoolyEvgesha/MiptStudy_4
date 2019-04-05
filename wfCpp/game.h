@@ -27,6 +27,7 @@ public:
     std::list<Coord>        body;
     Dir                     direction;
     Snake & operator=(Snake const &s);
+    void move           ();
 };
 
 using Rabbit = Coord;
@@ -41,6 +42,7 @@ public:
 
     void paint(SnakePainter p);
     void add(Snake * p);
+    void move();
 };
 
 #endif

@@ -6,10 +6,10 @@
 
 class Human : public Control, KeyPressable{
 public:
-    Human               (Snake *);
+    Human               (Snake *, Game *);
     ~Human              ();
     void onkey          (int);
-
+    Game *              game;
 };
 
 #endif //HUMAN_H

@@ -41,3 +41,31 @@ Snake& Snake::operator=(Snake const &s)
     body = s.body;
     direction = s.direction;
 }
+
+void Game::move()
+{
+    for(auto s:snakes)
+        s->move();
+}
+
+void Snake::move(){
+    auto a = body.front();
+
+    switch(direction){
+        case UP:
+            a.first--;
+            break;
+        case DOWN:
+            a.first++;
+            break;
+        case RIGHT:
+            a.second++;
+            break;
+        case LEFT:
+            a.second--;
+            break;
+    }
+
+    body.push_front(a);
+    body.pop_back();
+}

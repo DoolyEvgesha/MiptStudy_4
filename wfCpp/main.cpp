@@ -11,7 +11,7 @@ int main() {
     Game g;
     View * v = View::get();
     Snake s;
-    Human h(&s);
+    Human h(&s, &g);
     g.add(&s);
 
     v->setModel(&g);
