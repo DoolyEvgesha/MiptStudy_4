@@ -2,8 +2,8 @@
 #define TUI_H
 
 #include <termios.h>
-
 #include "View.h"
+
 #define PR_COOR(FUNC, x, y)                                 \
     do{                                                     \
         fout << FUNC << ": \t\t" << x << " " << y << std::endl; \
@@ -14,10 +14,10 @@ static std::ofstream fout("logFile.txt");
 class Tui:public View{
 
 private:
-    int x;
-    int y;
+    int x_;
+    int y_;
 
-    struct termios old;
+    struct termios old_;
 public:
     Tui();
     ~Tui();
@@ -30,13 +30,6 @@ public:
     void run();
     void clearScreen();
     void snakePainter(Coord, Dir);
-
 };
 
 #endif
-//man ioctl_tty
-
-//sa.sa ... = onwigch;
-//sigaction(SIGWINSZ, &sa);
-//static onwich(int x)
-//{}

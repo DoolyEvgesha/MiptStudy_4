@@ -5,8 +5,6 @@
 #include <utility>
 #include <functional>
 
-//auto
-
 class Control;
 
 enum Dir{
@@ -21,17 +19,17 @@ using Coord = std::pair<int, int>;
 
 class Snake{
 public:
-    Snake();
-    Snake(const Snake &);
+    Snake                               ();
+    Snake                               (const Snake &);
 
     std::list<Coord>        body;
     Dir                     direction;
-    Snake & operator=(Snake const &s);
-    void move           ();
+    Snake &                 operator=   (Snake const &s);
+    void                    move        ();
 };
 
-using Rabbit = Coord;
-using SnakePainter = std::function<void(Coord, Dir)>;//void is a return type
+using Rabbit        = Coord;
+using SnakePainter  = std::function<void(Coord, Dir)>;//void is a return type
 
 class Game{
 public:

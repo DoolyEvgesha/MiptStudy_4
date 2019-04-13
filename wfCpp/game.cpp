@@ -1,16 +1,19 @@
+#include <iostream>
 #include "game.h"
+#include "View.h"
 
 Game::Game()
 {
-    //snakes.push_back(Snake());
+    View * v = View::get();
+    v->setOnTimer(500, std::bind(&Game::move, this));
+    //v->destroy();
 }
 
 Snake::Snake()
 {
     direction = UP;
-    body.push_back(Coord(10, 11));
-    body.push_back(Coord(11, 11));
-    body.push_back(Coord(12, 11));
+    for(int i = 0; i < 10; i++)
+        body.push_back(Coord(10 + i, 11));
 }
 
 Snake::Snake(const Snake & s):
@@ -40,6 +43,7 @@ Snake& Snake::operator=(Snake const &s)
 {
     body = s.body;
     direction = s.direction;
+    return *this;
 }
 
 void Game::move()

@@ -6,6 +6,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <functional>
+#include <poll.h>
 
 using namespace std::placeholders;
 
@@ -35,12 +36,12 @@ void Tui::draw()
     clearScreen();
     getWinSize();
 
-    drawLineX(0, x, 0);
-    drawLineY(0, y, 0);
-    drawLineX(0, x, y);
-    drawLineY(0, y, x);
+    drawLineX(0, x_, 0);
+    drawLineY(0, y_, 0);
+    drawLineX(0, x_, y_);
+    drawLineY(0, y_, x_);
 
-    game->paint(std::bind(&View::snakePainter, this, _1, _2));
+    game_->paint(std::bind(&View::snakePainter, this, _1, _2));
     fflush(stdout);
 
 }
@@ -50,8 +51,8 @@ void Tui::getWinSize()
     struct winsize ws;
     ioctl(1, TIOCGWINSZ, &ws);
 
-    x = ws.ws_row;
-    y = ws.ws_col;
+    x_ = ws.ws_row;
+    y_ = ws.ws_col;
 }
 
 void onwinch(int x)
@@ -62,8 +63,8 @@ void onwinch(int x)
 }
 
 Tui::Tui():
-    x(0),
-    y(0)
+    x_(0),
+    y_(0)
 {
     setbuf(stdout, NULL);
 
@@ -72,11 +73,11 @@ Tui::Tui():
     sa.sa_flags = SA_RESTART;
     sigaction(SIGWINCH, &sa, 0);
 
-    struct termios a;
-    tcgetattr(0, &a);
-    old = a;
-    cfmakeraw(&a);
-    tcsetattr(0, TCSAFLUSH, &a);
+    struct termios cur_mode;
+    tcgetattr(STDIN_FILENO, &cur_mode);
+    old_ = cur_mode;
+    cfmakeraw(&cur_mode);
+    tcsetattr(STDIN_FILENO, TCSANOW, &cur_mode);
 }
 
 
@@ -87,17 +88,17 @@ void Tui::clearScreen()
 
 Tui::~Tui()
 {
-    tcsetattr(0, TCSAFLUSH, &old);
+    tcsetattr(STDIN_FILENO, TCSAFLUSH, &old_);
 
     clearScreen();
     printf("Goodbye\n");
 }
 
 void Tui::run()
-{
+{/*
     while(1){
         int c;
-        gotoxy(x/2, y/2);
+        gotoxy(x_/2, y_/2);
         c = getchar();
 
         if(c == 'q')
@@ -105,11 +106,55 @@ void Tui::run()
 
         if(c != -1)
         {
-            if(onkey_delegate != nullptr)
-                onkey_delegate->onkey(c);
+            if(onkey_delegate_ != nullptr)
+                onkey_delegate_->onkey(c);
         }
+    }*/
+    char cmd;
+    nfds_t nfds = 1;
+    int fds_ready = -1;
+
+    pollfd * poll_stdin_master = new struct pollfd[nfds];
+    pollfd * poll_stdin_set = new struct pollfd[nfds];
+
+    poll_stdin_master[0].fd = STDIN_FILENO;
+    poll_stdin_master[0].events = POLLIN;
+
+    while(1)
+    {
+        draw();
+        for(unsigned int i = 0; i < nfds; ++i)
+            poll_stdin_set[i] = poll_stdin_master[i];
+
+        fds_ready = poll(poll_stdin_set, nfds, timer_.first);
+        if(fds_ready < 0) {
+            fout << "ERROR: poll" << __PRETTY_FUNCTION__ << std::endl;
+            break;
+        }
+
+        else if(fds_ready == 0) {
+            timer_.second();
+            continue;
+        }
+
+        for(unsigned int i = 0; i < nfds; ++i)
+        {
+            if(poll_stdin_set[i].revents == POLLIN)
+            {
+                if(read(poll_stdin_set[i].fd, &cmd, 1) == -1)
+                {
+                    fout << "ERROR: reading from pool set" << __PRETTY_FUNCTION__ << std::endl;
+                    break;
+                }
+
+                if(onkey_delegate_) onkey_delegate_->onkey(cmd);
+            }
+        }
+
     }
 
+    delete [] poll_stdin_master;
+    delete [] poll_stdin_set;
 }
 
 void Tui::gotoxy(int x, int y)
