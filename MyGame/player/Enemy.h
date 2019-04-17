@@ -6,12 +6,15 @@
 
 class Enemy: public Entity{
 public:
-    Enemy(sf::Image&, float X, float Y, int W, int H, sf::String Name);
+    Enemy(const sf::Texture*, float X, float Y, int W, int H, sf::String Name);
     void checkCollisionWithMap(float Dx, float Dy);
     void update(float time);
 };
 
-Enemy::Enemy(sf::Image &image, float X, float Y,int W,int H,sf::String Name):Entity(image,X,Y,W,H,Name){
+Enemy::Enemy(const sf::Texture* animation_texture, float X, float Y,int W,int H,sf::String Name):
+    Entity(animation_texture,X,Y,W,H,Name){
+    //obj = level.GetObjects("solid");
+
     if (Name == "EasyEnemy")
     {
         sprite_.setTextureRect(sf::IntRect(0, 0, width_, height_));

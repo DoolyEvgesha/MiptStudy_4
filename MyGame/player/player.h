@@ -14,7 +14,7 @@ public:
     enum{left, right, up, down, jump, stay} state_;
     int playerScore_;
 
-    Player(sf::Image &image, float X, float Y, int W, int H, sf::String Name);
+    Player(const sf::Texture * animation_texture, float X, float Y, int W, int H, sf::String Name);
 
     void update                 (float time);
     void checkCollisionWithMap  (float Dx, float Dy);
@@ -22,8 +22,8 @@ public:
 };
 
 
-Player::Player(sf::Image &image, float X, float Y, int W, int H, sf::String Name):
-    Entity            (image, X, Y, W, H, Name),
+Player::Player(const sf::Texture * animation_texture, float X, float Y, int W, int H, const sf::String Name):
+    Entity            (animation_texture, X, Y, W, H, Name),
     playerScore_      (0),
     state_            (stay)
 
