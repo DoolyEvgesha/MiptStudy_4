@@ -1,7 +1,3 @@
-///////////the MAIN FILE
-//////////HERE IS WHERE ALL THE GAME STARTS
-
-*********************************************************
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <sstream>
@@ -11,10 +7,15 @@
 //#include "map/map.h"
 #include "../view/view.h"
 #include "../mission.h"
-#include "../level.h"
+//#include "../level.h"
 #include "../player/Enemy.h"
 #include "game.h"
 #include "game_manager.h"
+
+///////////the MAIN FILE
+//////////HERE IS WHERE ALL THE GAME STARTS
+
+//*********************************************************
 
 int play() {
     setTextures();
@@ -78,7 +79,7 @@ int play() {
     return 0;
 }
 
-void setTexture()
+void setTextures()
 {
     textures = new sf::Texture[texture_amount];
 

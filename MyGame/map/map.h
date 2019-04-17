@@ -2,6 +2,7 @@
 #define MYGAME_MAP_H
 
 #include <SFML/System/String.hpp>
+#include "../entity.h"
 
 const int HEIGHT_MAP        = 25;
 const int WIDTH_MAP         = 40;
@@ -33,6 +34,12 @@ static sf::String TileMap[HEIGHT_MAP] = { //?????????? how to replace the loot?
         "0           000000000000               0",
         "0   f    h  000000000000 h             0",
         "0000000000000000000000000000000000000000",
+};
+
+class Map:public Entity{
+public:
+private:
+    //std::vector<sf::Vector2f> fires;
 };
 
 static void randomMapGenerate()

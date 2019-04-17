@@ -22,14 +22,14 @@ enum textures
 };
 
 enum directions{
-    UP_DIR      = 0,
-    DOWN_DIR    = 1,
-    LEFT_DIR,
-    RIGHT_DIR,
-    UP_LEFT_DIR,
-    UP_RIGHT_DIR,
-    DOWN_LEFT_DIR,
-    DOWN_RIGHT_DIR,
+    UP_DIR          = 0,
+    DOWN_DIR        = 1,
+    LEFT_DIR        = 2,
+    RIGHT_DIR       = 3,
+    UP_LEFT_DIR     = 4,
+    UP_RIGHT_DIR    = 5,
+    DOWN_LEFT_DIR   = 6,
+    DOWN_RIGHT_DIR  = 7,
 };
 
 int play();

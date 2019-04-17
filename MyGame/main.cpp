@@ -1,3 +1,12 @@
+#include <iostream>
+#include "game/game.h"
+
+int main()
+{
+    play();
+    return 0;
+}
+
 /*#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <sstream>
