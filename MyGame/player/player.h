@@ -26,7 +26,7 @@ public:
     void update                 (float time, const sf::Event &event)    override;
     int  getDirection           (const sf::Event& event)                override;
     int  move                   ()                                      override;
-    int collide                 (Entity * entity)                       override;
+    int  collide                (Entity * entity)                       override;
 private:
     int                         health_;
     sf::Vector2f                viewCoord_;
@@ -93,6 +93,35 @@ void Player::update(float time, const sf::Event &event)
 
     }
     return 0;
+}
+
+int Player::collide(Entity *entity)
+{
+    switch(entity->getType())
+    {
+        case MAP
+        {
+            //TODO:write interaction with map(lives, stones, etc)
+            break;
+        }
+        case EASY_ENEMY
+        {
+            if(collideArea_ + entity->getCollideArea() > distanceModule(getLocation(), entity->getLocation()))
+            {
+                dir_.x = 0;
+                dir_.y = 0;
+                //TODO:do adjustments to sprite if he is hit by an enemy
+                //maybe he dies
+                //health--;
+                //if(health_ < 0)
+                   // state_ = false;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+
 }
 
 

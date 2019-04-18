@@ -4,13 +4,12 @@
 #include <list>
 
 #include "../player/player.h"
-//#include "map/map.h"
 #include "../view/view.h"
 #include "../mission.h"
-//#include "../level.h"
 #include "../player/Enemy.h"
 #include "game.h"
 #include "game_manager.h"
+#include <math.h>
 
 ///////////the MAIN FILE
 //////////HERE IS WHERE ALL THE GAME STARTS
@@ -28,8 +27,8 @@ int play() {
     //Object player = level.GetObject("player");
     //Object easyEnemyObject = level.GetObject("easyEnemy");
 
-    Player p(&textures[player_texture], 750, 500, 40, 30, "Player1");
-    Enemy easyEnemy(&textures[easyenemy_texture], 850, 671, 200, 97, "EasyEnemy");
+    //Player p(&textures[player_texture], 750, 500, 40, 30, "Player1");
+    //Enemy easyEnemy(&textures[easyenemy_texture], 850, 671, 200, 97, "EasyEnemy");
 
     sf::Clock clock;
 
@@ -77,6 +76,11 @@ int play() {
 
     delete[] textures;
     return 0;
+}
+
+float distanceModule(sf::Vector2f &v1, sf::Vector2f &v2)
+{
+    return sqrt((v1.x - v2.x)*(v1.x - v2.x) + (v1.y - v2.y)*(v1.y - v2.y));
 }
 
 void setTextures()
