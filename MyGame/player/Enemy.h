@@ -3,16 +3,18 @@
 
 #include "../entity.h"
 #include "../map/map.h"
+#include "../player/player.h"
 
 class Enemy: public Entity{
 public:
-    Enemy(const sf::Texture*, float X, float Y, int W, int H, sf::String Name);
+    Enemy(float x, float y, int width, int height, float speed, float animation_speed, int move_frame_amount,
+          float collideArea, const sf::Texture *move_animation_texture, Player *player);
     void checkCollisionWithMap(float Dx, float Dy);
     void update(float time);
 };
 
-Enemy::Enemy(const sf::Texture* animation_texture, float X, float Y,int W,int H,sf::String Name):
-    Entity(animation_texture,X,Y,W,H,Name){
+Enemy::Enemy(const sf::Texture* animation_texture, float X, float Y,int W,int H,const sf::String Name):
+    Entity(X,Y,W,H,10,10,animation_texture,10,EASY_ENEMY, 10){
     //obj = level.GetObjects("solid");
 
     if (Name == "EasyEnemy")

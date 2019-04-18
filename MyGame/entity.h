@@ -60,11 +60,12 @@ public:
     visualEntity(float x, float y, float animation_speed, int w, int h,
             int frame_size, const sf::Texture * texture);
 
-    int move(float dx, float dy);
-    void changeTexture(const sf::Texture *texture, int width, int height, int frameAmount, float animation_speed);
-    int changeFramePosition(int direction);
-    int changeFrame(float time);
-    int stopFrame(int direction);
+    int     move(float dx, float dy);
+    virtual void draw(sf::RenderWindow & window) = 0;
+    void    changeTexture(const sf::Texture *texture, int width, int height, int frame_size, float animation_speed);
+    int     changeFramePosition(int direction);
+    int     changeFrame(float time);
+    int     stopFrame(int direction);
 };
 
 visualEntity::visualEntity(float x, float y, float animation_speed, int w, int h, int frame_size,
@@ -141,24 +142,41 @@ public:/*
     //Entity(const sf::Texture * , float, float, int, int, sf::String);
     Entity(float x, float y, int text_width, int text_height, float speed, float animation_speed,
             const sf::Texture *anim_texture, int frame_size, int type, float collide_area);
-    virtual void update(float time) = 0;
+    virtual void    update      (float time, const sf::Event &event) = 0;
+    bool            getState    ();
+    int             getType     ();
+    sf::Vector2f    getDirection();
+    bool            isAlive     ();
+
+    virtual int     collide     (Entity * entity)   = 0;
+    virtual int     move        ()                  = 0;
+    virtual         ~Entity     () = default;
 
 protected:
     bool            is_alive_;
     bool            state_;
     int             type_;
-    sf::Vector2f    direction_;
+    sf::Vector2f    dir_;
 };
 
 Entity::Entity(float x, float y, int text_width, int text_height, float speed, float animation_speed,
                const sf::Texture *anim_texture, int frame_size, int type, float collide_area):
+
         physEntity  (x + (float)text_width / 2, y + (float)text_height / 2, speed, collide_area),
         visualEntity(x, y, animation_speed, text_width, text_height, frame_size, anim_texture),
+
         type_       (type),
-        direction_  (sf::Vector2f(0, 0)),
+        dir_        (sf::Vector2f(0, 0)),
         state_      (true),
         is_alive_   (true)
 {}
+
+bool            Entity::getState()     { return state_;     }
+int             Entity::getType()      { return type_;      }
+bool            Entity::isAlive()      { return is_alive_;  }
+sf::Vector2f    Entity::getDirection() { return dir_; }
+
+
 
 /*Entity::Entity(const sf::Texture * animation_texture, float X, float Y, int W, int H, sf::String Name):
         dx_         (0),

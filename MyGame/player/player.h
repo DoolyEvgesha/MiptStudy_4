@@ -11,56 +11,102 @@
 
 class Player : public Entity{
 public:
-    enum{left, right, up, down, jump, stay} state_;
-    int playerScore_;
+    Player(float x, float y, int w, int h, float speed, float animation_speed, int move_frame_amount,
+           float collideArea, const sf::Texture *move_animation_texture);
 
-    Player(const sf::Texture * animation_texture, float X, float Y, int W, int H, sf::String Name);
-
-    void update                 (float time);
     void checkCollisionWithMap  (float Dx, float Dy);
     void control                ();
+    int  getHealth              ();
+    sf::Vector2f getViewCoord   ();
+    sf::Vector2f getView        ();
+
+    sf::View     view_;
+
+    void draw                   (sf::RenderWindow &window)              override;
+    void update                 (float time, const sf::Event &event)    override;
+    int  getDirection           (const sf::Event& event)                override;
+    int  move                   ()                                      override;
+    int collide                 (Entity * entity)                       override;
+private:
+    int                         health_;
+    sf::Vector2f                viewCoord_;
+
 };
 
-
-Player::Player(const sf::Texture * animation_texture, float X, float Y, int W, int H, const sf::String Name):
-    Entity            (animation_texture, X, Y, W, H, Name),
-    playerScore_      (0),
-    state_            (stay)
-
+//TODO: consider directions and maybe speed the character when he is falling by "S"
+int Player::getDirection(const sf::Event &event)
 {
-    if(name_ == "Player1")
-        sprite_.setTextureRect(sf::IntRect(4, 19, width_, height_));
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        return LEFT_DIR;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+        return UP_DIR;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        return RIGHT_DIR;
+   /* if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        return _DIR;*/
+   //TODO: rethink the way to get out if the problem occurs
+    exit(EXIT_FAILURE);
 }
 
-void Player::update(float time)
+int Player::move()
 {
-    control();
-    switch (state_)
+    Entity::move();
+    view_.setCenter(viewCoord_);
+}
+
+void Player::update(float time, const sf::Event &event)
+{
+    sprite_.setColor(sf::Color::White);
+    changeFrame(time);
+
+    dir_.x = 0;
+    dir_.y = 0;
+
+    switch(getDirection(event))
     {
-        case right: dx_ =   speed_;     break;
-        case left:  dx_ =   -speed_;    break;
-        case up:                        break;
-        case down:  dx_ =   0;          break;
-        case jump:                      break;
-        case stay:                      break;
+        case RIGHT_DIR
+        {
+            changeFramePosition(RIGHT_DIR);
+            dir_.x      = speed_ * time;
+            direction_  = RIGHT_UP;
+            break;
+        }
+        case LEFT_DIR
+        {
+            changeFramePosition(LEFT_DIR);
+            dir_.x      = - speed_ * time;
+            direction_  = LEFT_UP;
+            break;
+        }
+        case UP_DIR
+        {
+            changeFramePosition(UP_DIR);
+            dir_.y      = - speed_ * time;
+            direction_  = UP_DIR;
+            break;
+        }
+        default
+        {
+            stopFrame(direction_);
+            break;
+        }
 
-        default: std::cout << "Direction is out of bound\n";
     }
-
-    x_ += dx_ * time;
-    checkCollisionWithMap(dx_, 0);
-    y_ += dy_ * time;
-    checkCollisionWithMap(0, dy_);
-    sprite_.setPosition(x_ + width_/2, y_ + height_/2);
-    if(health_ <= 0) {life_= false;}
-    if(!isMoved_) speed_ = 0;
-
-    if(life_)
-        setPlayerCoordForView(x_, y_);
-
-    dy_ += 0.0015 * time;
-
+    return 0;
 }
+
+
+Player::Player(float x, float y, int w, int h, float speed, float animation_speed, int move_frame_amount,
+       float collideArea, const sf::Texture *move_animation_texture):
+    Entity       (x, y, w, h, speed, animation_speed, move_animation_texture, move_frame_amount, PLAYER, collideArea),
+    health_      (100),
+    viewCoord_   (physEntity::bodyCoord_)
+
+{}
+
+int             Player::getHealth()     { return height_; }
+sf::Vector2f    Player::getViewCoord()  { return viewCoord_; }
+void Player::draw(sf::RenderWindow &window) { window.draw(sprite_); }
 
 void Player::checkCollisionWithMap(float Dx, float Dy)
 {
