@@ -25,13 +25,13 @@ int play() {
     Player player(1000, 300, player_w, player_h, player_s, player_animation_s, move_frame_amount,
             player_collide_area, &textures[PLAYER]);
 
-    sf::Clock clock;
+    //sf::Clock clock;
 
     while (window.isOpen())
     {
-        float time = clock.getElapsedTime().asMicroseconds();
-        clock.restart();
-        time /= 800;
+        //float time = clock.getElapsedTime().asMicroseconds();
+        //clock.restart();
+        //time /= 800;
 
         sf::Event event;
         while (window.pollEvent(event))

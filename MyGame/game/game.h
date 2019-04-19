@@ -5,9 +5,9 @@
 
 static sf::Texture *textures;
 
-const char playerImageFile[]    = "../images/MilesTailsPrower.gif";
-const char easyEnemyImageFile[] = "../images/shamaich.png";
-const char mapImageFile[]       = "../images/map.png";
+const char playerImageFile[]    = "images/MilesTailsPrower.gif";
+const char easyEnemyImageFile[] = "images/shamaich.png";
+const char mapImageFile[]       = "images/map.png";
 
 enum textures
 {
