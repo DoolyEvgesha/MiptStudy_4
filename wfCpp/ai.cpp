@@ -23,10 +23,11 @@ void Ai::onMove()
     auto cur_dist = nearest_rabbit_coord->distance(snake->body.front());
     for(int i = 0; i < 4; i++)
     {
+        snake->direction = dirs[i];
+
         auto next_dist = nearest_rabbit_coord->distance(snake->next());
         if((cur_dist > next_dist)&&(game_->isFree(snake->next())))
         {
-            snake->direction = dirs[i];
             break;
         }
     }

@@ -48,13 +48,13 @@ bool Game::isFree(const Coord &c) const
 {
     for(auto i : snakes)
     {
-        for(Coord b : i->body)
+        for(auto b : i->body)
         {
             if(c == b)
                 return false;
         }
     }
-    for(auto i : rabbits)
+    for(Coord i : rabbits)
     {
         if(i == c)
             return false;
