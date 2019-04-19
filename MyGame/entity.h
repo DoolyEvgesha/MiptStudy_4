@@ -15,7 +15,7 @@ public:
     float           getX();
     float           getY();
     int             getDir();
-    float           getCollidArea();
+    float           getCollideArea();
     sf::Vector2f    getLocation();
 
 protected://so that the child class can see this parameters and others don't
@@ -36,7 +36,7 @@ physEntity::physEntity(float x, float y, float speed, float collide_area):
 float           physEntity::getX()          { return bodyCoord_.x;  }
 float           physEntity::getY()          { return bodyCoord_.y;  }
 int             physEntity::getDir()        { return direction_;    }
-float           physEntity::getCollidArea() { return collideArea_;  }
+float           physEntity::getCollideArea(){ return collideArea_;  }
 sf::Vector2f    physEntity::getLocation()   { return bodyCoord_;    }
 
 int physEntity::move(float dx, float dy) { bodyCoord_.x += dx; bodyCoord_.y += dy; }
@@ -122,34 +122,17 @@ void visualEntity::changeTexture(const sf::Texture *texture, int width, int heig
 //////////////////////////////////////////////////////////////////
 class Entity : public visualEntity, public physEntity
 {
-public:/*
-    float       dx_;
-    float       dy_;
-    float       x_;
-    float       y_;
-    int         width_;
-    int         height_;
-    float       speed_;
-    float       moveTimer;
-    bool        life_;
-    bool        isMoved_;
-    bool        onGround_;
-    int         health_;
-    sf::String  name_;
-    //sf::Texture texture_;
-    const sf::Texture * texture_;
-    sf::Sprite  sprite_;*/
-    //Entity(const sf::Texture * , float, float, int, int, sf::String);
+public:
     Entity(float x, float y, int text_width, int text_height, float speed, float animation_speed,
             const sf::Texture *anim_texture, int frame_size, int type, float collide_area);
     virtual void    update      (float time, const sf::Event &event) = 0;
     bool            getState    ();
     int             getType     ();
-    sf::Vector2f    getDirection();
+    virtual int     getDirection(const sf::Event &event) = 0;
     bool            isAlive     ();
 
     virtual int     collide     (Entity * entity)   = 0;
-    virtual int     move        ()                  = 0;
+    virtual int     move        ();
     virtual         ~Entity     () = default;
 
 protected:
@@ -158,6 +141,12 @@ protected:
     int             type_;
     sf::Vector2f    dir_;
 };
+
+int Entity::move()
+{
+    physEntity::move(dir_.x, dir_.y);
+    visualEntity::move(dir_.x, dir_.y);
+}
 
 Entity::Entity(float x, float y, int text_width, int text_height, float speed, float animation_speed,
                const sf::Texture *anim_texture, int frame_size, int type, float collide_area):
@@ -174,33 +163,5 @@ Entity::Entity(float x, float y, int text_width, int text_height, float speed, f
 bool            Entity::getState()     { return state_;     }
 int             Entity::getType()      { return type_;      }
 bool            Entity::isAlive()      { return is_alive_;  }
-sf::Vector2f    Entity::getDirection() { return dir_; }
-
-
-
-/*Entity::Entity(const sf::Texture * animation_texture, float X, float Y, int W, int H, sf::String Name):
-        dx_         (0),
-        dy_         (0),
-        x_          (X),
-        y_          (Y),
-        width_      (W),
-        height_     (H),
-        speed_      (0),
-        moveTimer   (0),
-        life_       (true),
-        isMoved_    (false),
-        onGround_   (false),
-        health_     (100),
-        name_       (Name),
-        texture_    (animation_texture)
-
-{
-    //texture_.loadFromImage(image);
-    sprite_.setTexture(*texture_);
-    sprite_.setOrigin(width_/2, height_/2);
-
-}*/
-
-
 
 #endif //MYGAME_ENTITY_H

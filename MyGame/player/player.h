@@ -4,21 +4,22 @@
 #include "../map/map.h"
 #include "../view/view.h"
 #include "../entity.h"
-#include "Enemy.h"
-#include <SFML/Graphics/Image.hpp>
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Sprite.hpp>
+#include "../game/game.h"
+
+const int   player_w            = 100;
+const int   player_h            = 100;
+const float player_s            = 0.4;
+const float player_animation_s  = 0.04;
+const int   move_frame_amount   = 8;
+const float player_collide_area = 1000;
 
 class Player : public Entity{
 public:
     Player(float x, float y, int w, int h, float speed, float animation_speed, int move_frame_amount,
            float collideArea, const sf::Texture *move_animation_texture);
 
-    void checkCollisionWithMap  (float Dx, float Dy);
-    void control                ();
     int  getHealth              ();
     sf::Vector2f getViewCoord   ();
-    sf::Vector2f getView        ();
 
     sf::View     view_;
 
@@ -27,6 +28,7 @@ public:
     int  getDirection           (const sf::Event& event)                override;
     int  move                   ()                                      override;
     int  collide                (Entity * entity)                       override;
+
 private:
     int                         health_;
     sf::Vector2f                viewCoord_;
@@ -36,11 +38,11 @@ private:
 //TODO: consider directions and maybe speed the character when he is falling by "S"
 int Player::getDirection(const sf::Event &event)
 {
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         return LEFT_DIR;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         return UP_DIR;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         return RIGHT_DIR;
    /* if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         return _DIR;*/
@@ -64,48 +66,41 @@ void Player::update(float time, const sf::Event &event)
 
     switch(getDirection(event))
     {
-        case RIGHT_DIR
-        {
+        case RIGHT_DIR:
             changeFramePosition(RIGHT_DIR);
             dir_.x      = speed_ * time;
-            direction_  = RIGHT_UP;
+            direction_  = RIGHT_DIR;
             break;
-        }
-        case LEFT_DIR
-        {
+
+        case LEFT_DIR:
             changeFramePosition(LEFT_DIR);
             dir_.x      = - speed_ * time;
-            direction_  = LEFT_UP;
+            direction_  = LEFT_DIR;
             break;
-        }
-        case UP_DIR
-        {
+
+        case UP_DIR:
             changeFramePosition(UP_DIR);
             dir_.y      = - speed_ * time;
             direction_  = UP_DIR;
             break;
-        }
-        default
-        {
+        default:
             stopFrame(direction_);
             break;
-        }
 
     }
-    return 0;
+    //TODO:write the proper exit
+    exit(EXIT_FAILURE);
 }
 
 int Player::collide(Entity *entity)
 {
     switch(entity->getType())
     {
-        case MAP
-        {
+        case MAP:
             //TODO:write interaction with map(lives, stones, etc)
             break;
-        }
-        case EASY_ENEMY
-        {
+
+        case EASY_ENEMY:
             if(collideArea_ + entity->getCollideArea() > distanceModule(getLocation(), entity->getLocation()))
             {
                 dir_.x = 0;
@@ -117,7 +112,7 @@ int Player::collide(Entity *entity)
                    // state_ = false;
             }
             break;
-        }
+
         default:
             break;
     }
@@ -133,61 +128,8 @@ Player::Player(float x, float y, int w, int h, float speed, float animation_spee
 
 {}
 
-int             Player::getHealth()     { return height_; }
-sf::Vector2f    Player::getViewCoord()  { return viewCoord_; }
-void Player::draw(sf::RenderWindow &window) { window.draw(sprite_); }
-
-void Player::checkCollisionWithMap(float Dx, float Dy)
-{
-    for (int i = y_ / 32; i < (y_ + height_) / 32; i++)
-    {
-        for (int j = x_ / 32; j < (x_ + width_) / 32; j++)
-        {
-            if (TileMap[i][j] == '0')
-            {
-                if (Dy > 0) {
-                    y_ = i * 32 - height_;
-                    dy_ = 0;
-                    onGround_ = true;
-                }
-                if (Dy < 0) {
-                    y_ = i * 32 + 32;
-                    dy_ = 0;
-                }
-                if (Dx > 0) {
-                    x_ = j * 32 - width_;
-                }
-                if (Dx < 0) {
-                    x_ = j * 32 + 32;
-                }
-            }
-        }
-    }
-}
-
-void Player::control()
-{
-    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left))) {
-        state_ = left;
-        speed_ = 0.1;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        state_ = right;
-        speed_ = 0.1;
-    }
-
-
-    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) && onGround_) {
-        state_ = jump;
-        dy_ = -0.6;
-        onGround_ = false;
-    }
-
-    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
-        state_ = down;
-    }
-}
-
+int             Player::getHealth   ()                         { return height_; }
+sf::Vector2f    Player::getViewCoord()                         { return viewCoord_; }
+void            Player::draw        (sf::RenderWindow &window) { window.draw(sprite_); }
 
 #endif //MYGAME_PLAYER_H

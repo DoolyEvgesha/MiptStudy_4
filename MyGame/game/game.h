@@ -39,8 +39,8 @@ enum types{
     MAP         = 3
 };
 
-int play();
-
-void setTextures();
+int         play            ();
+void        setTextures     ();
+float       distanceModule  (const sf::Vector2f &v1, const sf::Vector2f &v2);
 
 #endif //MYGAME_GAME_H

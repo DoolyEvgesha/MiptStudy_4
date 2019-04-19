@@ -22,13 +22,8 @@ int play() {
     sf::RenderWindow window(sf::VideoMode(640, 480), "My Game UwU");
     view.reset(sf::FloatRect(0, 0, 640, 480));
 
-    //Level level;
-    //level.LoadFromFile("Map.tmx");
-    //Object player = level.GetObject("player");
-    //Object easyEnemyObject = level.GetObject("easyEnemy");
-
-    //Player p(&textures[player_texture], 750, 500, 40, 30, "Player1");
-    //Enemy easyEnemy(&textures[easyenemy_texture], 850, 671, 200, 97, "EasyEnemy");
+    Player player(1000, 300, player_w, player_h, player_s, player_animation_s, move_frame_amount,
+            player_collide_area, &textures[PLAYER]);
 
     sf::Clock clock;
 
@@ -43,10 +38,7 @@ int play() {
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-
         }
-        p.update(time);
-        easyEnemy.update(time);
 
         window.setView(view);
         window.clear(sf::Color(77, 83, 140));
@@ -69,8 +61,8 @@ int play() {
         //===============================================================================
         //===============================================================================
 
-        window.draw(easyEnemy.sprite_);
-        window.draw(p.sprite_);
+        //window.draw(easyEnemy.sprite_);
+        //window.draw(p.sprite_);
         window.display();
     }
 
@@ -78,7 +70,7 @@ int play() {
     return 0;
 }
 
-float distanceModule(sf::Vector2f &v1, sf::Vector2f &v2)
+float distanceModule(const sf::Vector2f &v1, const sf::Vector2f &v2)
 {
     return sqrt((v1.x - v2.x)*(v1.x - v2.x) + (v1.y - v2.y)*(v1.y - v2.y));
 }
