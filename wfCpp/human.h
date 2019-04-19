@@ -10,6 +10,8 @@ public:
     ~Human              ();
     void onkey          (int);
     Game *              game;
+
+    void                onMove(){}
 };
 
 #endif //HUMAN_H

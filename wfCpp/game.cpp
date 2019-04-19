@@ -1,6 +1,27 @@
 #include <iostream>
+#include <climits>
 #include "game.h"
 #include "View.h"
+#include "control.h"
+#include <random>
+
+int Coord::distance(const Coord & c) const {return (c.first + c.second);}
+
+optional<Coord> Game::near(const Coord &c) const
+{
+    int min = INT_MAX;
+    optional<Coord> closest_rabbit;//no value
+
+    for(auto i : rabbits)
+    {
+        if(i.distance(c) < min)
+        {
+            min = i.distance(c);
+            closest_rabbit = i;// if there is somwthing, we take it
+        }
+    }
+    return closest_rabbit;
+}
 
 Game::Game()
 {
@@ -11,15 +32,35 @@ Game::Game()
 
 Snake::Snake()
 {
-    direction = UP;
-    for(int i = 0; i < 10; i++)
-        body.push_back(Coord(10 + i, 11));
+    direction   = LEFT;
+    int start   = rand() % 20;
+    int y       = rand() % 20;
+    for(int i = start; i < start + 10; i++)
+        body.push_back(Coord(10 + i, y));
 }
 
 Snake::Snake(const Snake & s):
     direction   (s.direction),
     body        (s.body)
 {}
+
+bool Game::isFree(const Coord &c) const
+{
+    for(auto i : snakes)
+    {
+        for(Coord b : i->body)
+        {
+            if(c == b)
+                return false;
+        }
+    }
+    for(auto i : rabbits)
+    {
+        if(i == c)
+            return false;
+    }
+    return true;
+}
 
 void Game::paint(SnakePainter pointer)
 {
@@ -48,11 +89,18 @@ Snake& Snake::operator=(Snake const &s)
 
 void Game::move()
 {
+    for(auto c:controls)
+    {
+        c->onMove();
+    }
     for(auto s:snakes)
+    {
         s->move();
+    }
 }
 
-void Snake::move(){
+Coord Snake::next()
+{
     auto a = body.front();
 
     switch(direction){
@@ -69,7 +117,12 @@ void Snake::move(){
             a.second--;
             break;
     }
+    return a;
+}
 
+void Snake::move(){
+
+    auto a = next();
     body.push_front(a);
     body.pop_back();
 }

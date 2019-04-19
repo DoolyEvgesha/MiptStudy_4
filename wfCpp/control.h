@@ -7,6 +7,7 @@ class Control{
 public:
     explicit Control(Snake * s){ snake = s; };
     Snake * snake;
+    virtual void onMove() = 0;
 };
 
 #endif //CONTROL_H

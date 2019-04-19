@@ -1,4 +1,4 @@
-//
-// Created by darya on 3/22/19.
-//
+#include "control.h"
+#include <iostream>
+#include <algorithm>
 

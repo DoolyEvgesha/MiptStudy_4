@@ -4,6 +4,8 @@
 #include <list>
 #include <utility>
 #include <functional>
+#include <experimental/optional>
+using namespace std::experimental;
 
 class Control;
 
@@ -15,7 +17,13 @@ enum Dir{
     NO      = 4,
 };
 
-using Coord = std::pair<int, int>;
+//using Coord = std::pair<int, int>;
+
+struct Coord:public std::pair<int, int>{
+  using Base = std::pair<int, int>;
+  int distance(const Coord&)const;
+  using Base::Base;
+};
 
 class Snake{
 public:
@@ -26,10 +34,13 @@ public:
     Dir                     direction;
     Snake &                 operator=   (Snake const &s);
     void                    move        ();
+    Coord                   next        ();
 };
 
 using Rabbit        = Coord;
 using SnakePainter  = std::function<void(Coord, Dir)>;//void is a return type
+
+class Control;
 
 class Game{
 public:
@@ -38,9 +49,13 @@ public:
     std::list<Snake*>      snakes;
     std::list<Rabbit>      rabbits;
 
-    void paint(SnakePainter p);
-    void add(Snake * p);
-    void move();
+    void    paint       (SnakePainter p);
+    void    add         (Snake * p);
+    void    move        ();
+    bool    isFree      (const Coord & c) const; //if the Coordinate is free or not
+    optional<Coord>         near        (const Coord& c) const;
+
+    std::list<Control*>    controls;
 };
 
 #endif
