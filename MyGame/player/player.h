@@ -18,8 +18,8 @@ public:
     Player(float x, float y, int w, int h, float speed, float animation_speed, int move_frame_amount,
            float collideArea, const sf::Texture *move_animation_texture);
 
-    int  getHealth              ();
-    sf::Vector2f getViewCoord   ();
+    int             getHealth      ();
+    sf::Vector2f    getViewCoord   ();
 
     sf::View     view_;
 

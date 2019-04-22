@@ -31,7 +31,7 @@ int main() {
     //Level level;
     //level.LoadFromFile("Map.tmx");
 
-    std::list<Entity*> entities;
+    std::list<Entity*> entities_;
     std::list<Entity*>::iterator it;
 
     //Object player = level.GetObject("player");

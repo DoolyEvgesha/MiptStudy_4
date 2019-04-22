@@ -7,12 +7,13 @@
 #include "../view/view.h"
 #include "../mission.h"
 #include "../player/Enemy.h"
+#include "../map/map.h"
 #include "game.h"
 #include "game_manager.h"
 #include <math.h>
 
-///////////the MAIN FILE
-//////////HERE IS WHERE ALL THE GAME STARTS
+///////////THE MAIN FILE
+///////////HERE IS WHERE ALL THE GAME STARTS
 
 //*********************************************************
 
@@ -22,9 +23,13 @@ int play() {
     sf::RenderWindow window(sf::VideoMode(640, 480), "My Game UwU");
     view.reset(sf::FloatRect(0, 0, 640, 480));
 
+    Map map(TileMap, HEIGHT_MAP, WIDTH_MAP, TILE_SIZE, &textures[map_texture]);
+
     Player player(1000, 300, player_w, player_h, player_s, player_animation_s, move_frame_amount,
             player_collide_area, &textures[PLAYER]);
 
+    player.view_.reset(sf::FloatRect(0, 0, 640, 480));
+    GameManager gamemanager(&player, &map);
     //sf::Clock clock;
 
     while (window.isOpen())
@@ -40,29 +45,8 @@ int play() {
                 window.close();
         }
 
-        window.setView(view);
-        window.clear(sf::Color(77, 83, 140));
-        //===============================================================================
-        //============DRAWING A MAP======================================================
-        /*
-         * for (int i = 0; i < HEIGHT_MAP; i++)
-            for (int j = 0; j < WIDTH_MAP; j++)
-            {
-                if (TileMap[i][j] == ' ')  s_map.setTextureRect(sf::IntRect(0,   0, 32, 32));
-                if (TileMap[i][j] == 's')  s_map.setTextureRect(sf::IntRect(32,  0, 32, 32));
-                if (TileMap[i][j] == '0')  s_map.setTextureRect(sf::IntRect(64,  0, 32, 32));
-                if (TileMap[i][j] == 'f')  s_map.setTextureRect(sf::IntRect(96,  0, 32, 32));
-                if (TileMap[i][j] == 'h')  s_map.setTextureRect(sf::IntRect(128, 0, 32, 32));
-                s_map.setPosition(j * 32, i * 32);
-
-                window.draw(s_map);
-            }
-            */
-        //===============================================================================
-        //===============================================================================
-
-        //window.draw(easyEnemy.sprite_);
-        //window.draw(p.sprite_);
+        window.setView(player.view_);
+        window.clear(sf::Color::Blue);
         window.display();
     }
 
@@ -95,7 +79,7 @@ void setTextures()
 
 
     sf::Image easyEnemyImage;
-    easyEnemyImage.loadFromFile("images/shamaich.png");
+    easyEnemyImage.loadFromFile(easyEnemyImageFile);
     easyEnemyImage.createMaskFromColor(sf::Color(255, 0, 0));
     textures[easyenemy_texture].loadFromImage(easyEnemyImage);
 }

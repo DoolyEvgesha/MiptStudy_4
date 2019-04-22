@@ -130,7 +130,6 @@ public:
     int             getType     ();
     virtual int     getDirection(const sf::Event &event) = 0;
     bool            isAlive     ();
-
     virtual int     collide     (Entity * entity)   = 0;
     virtual int     move        ();
     virtual         ~Entity     () = default;

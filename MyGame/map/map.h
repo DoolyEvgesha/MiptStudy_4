@@ -2,11 +2,12 @@
 #define MYGAME_MAP_H
 
 #include <SFML/System/String.hpp>
+#include <SFML/Graphics.hpp>
 #include "../entity.h"
 
 const int HEIGHT_MAP        = 25;
 const int WIDTH_MAP         = 40;
-const int TILE_SIZE         = 72; //define it later!
+const int TILE_SIZE         = 32; //define it later!
 
 static sf::String TileMap[HEIGHT_MAP] = { //?????????? how to replace the loot?
         "0000000000000000000000000000000000000000",
@@ -54,9 +55,9 @@ private:
     int                 tileSize_;
 };
 
-void Map::update(float time, const sf::Event &event) { changeFrame(time); }
-int Map::getDirection(const sf::Event &event) { return 0; }
-int Map::collide(Entity *entity) { return 0; }
+void    Map::update         (float time, const sf::Event &event)    { changeFrame(time); }
+int     Map::getDirection   (const sf::Event &event)                { return 0; }
+int     Map::collide        (Entity *entity)                        { return 0; }
 
 void Map::draw(sf::RenderWindow &window)
 {
@@ -67,14 +68,32 @@ void Map::draw(sf::RenderWindow &window)
             sprite_.setPosition(i * tileSize_, j * tileSize_);
             window.draw(sprite_);
 
+
             switch(tiledMap_[i][j])
             {
-                //TODO: write stones, hearts etc on the map
-                case 's':
-                    //sprite_.setTextureRect();
+                case ' ':
+                    sprite_.setTextureRect(sf::IntRect(0, 0, TILE_SIZE, TILE_SIZE));
                     break;
-                //...
-                //...
+                //TODO: write stones, hearts etc on the map
+                case 's': //stone
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE, 0, TILE_SIZE, TILE_SIZE));
+                    break;
+                case 'f': //flower
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 3, 0, TILE_SIZE, TILE_SIZE));
+                    break;
+                case 'h': //heart
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 4, 0, TILE_SIZE, TILE_SIZE));
+                    break;
+                case 't': //tree
+                    //
+                    break;
+                case 'g': //
+                    //
+                    break;
+                case '0': //boundaries
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 2, 0, TILE_SIZE, TILE_SIZE));
+                    break;
+
                 default:
                     break;
             }
