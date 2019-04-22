@@ -9,8 +9,8 @@
 #include <unistd.h>
 
 int main() {
-    Game g;
     View * v = View::get();
+    Game g;
     Snake s;
 
     Snake s_ai;

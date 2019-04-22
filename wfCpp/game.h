@@ -39,6 +39,7 @@ public:
 
 using Rabbit        = Coord;
 using SnakePainter  = std::function<void(Coord, Dir)>;//void is a return type
+using RabbitPainter = std::function<void(Coord)>;
 
 class Control;
 
@@ -49,11 +50,21 @@ public:
     std::list<Snake*>      snakes;
     std::list<Rabbit>      rabbits;
 
-    void    paint       (SnakePainter p);
-    void    add         (Snake * p);
-    void    move        ();
-    bool    isFree      (const Coord & c) const; //if the Coordinate is free or not
+    void    paint           (SnakePainter sp, RabbitPainter rb);
+    void    add             (Snake * p);
+    void    move            ();
+    Coord   getFreeCoord    () const; //if the Coordinate is free or not
+    bool    isFree          (const Coord c) const;
+    char    checkForSnakes  (const Coord c) const;
+    void    killRabbit      (const Coord c);
+
+    void    createRabbit    ();
     optional<Coord>         near        (const Coord& c) const;
+
+    //single-tone
+    static Game *  game_inst_;
+    static Game *  get();
+
 
     std::list<Control*>    controls;
 };

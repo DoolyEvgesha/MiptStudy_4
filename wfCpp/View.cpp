@@ -20,18 +20,11 @@ View * View::get()
     return inst_;
 }
 
-/*View * View::get(const char *type)
+void View::setOnTimer(int time, Timeoutable timer)
 {
-    if(!strcmp(type, "tui"))
-    {
-        if(inst_)
-            return inst_;
-        inst_ = new Tui;
-        return inst_;
-    }
-    else
-    {
-        fout << "Cannot recognise type" << __PRETTY_FUNCTION__;
-        return nullptr;
-    }
-}*/
+    std::pair <long , Timeoutable> res;
+
+    res.first = time;
+    res.second = timer;
+    timer_.emplace_back(res);
+}

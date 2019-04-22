@@ -36,12 +36,12 @@ void Tui::draw()
     clearScreen();
     getWinSize();
 
-    drawLineX(0, x_, 0);
-    drawLineY(0, y_, 0);
-    drawLineX(0, x_, y_);
-    drawLineY(0, y_, x_);
+    drawLineX(0, view_x_, 0);
+    drawLineY(0, view_y_, 0);
+    drawLineX(0, view_x_, view_y_);
+    drawLineY(0, view_y_, view_x_);
 
-    game_->paint(std::bind(&View::snakePainter, this, _1, _2));
+    game_->paint(std::bind(&View::snakePainter, this, _1, _2), std::bind(&View::rabbitPainter, this, _1));
     fflush(stdout);
 
 }
@@ -51,8 +51,14 @@ void Tui::getWinSize()
     struct winsize ws;
     ioctl(1, TIOCGWINSZ, &ws);
 
-    x_ = ws.ws_row;
-    y_ = ws.ws_col;
+    view_x_ = 80;
+    view_y_ = 80;
+
+    view_x_ = ws.ws_row;
+    view_y_ = ws.ws_col;
+
+    //Coord res = {ws.ws_row, ws.ws_col};
+    //return res;
 }
 
 void onwinch(int x)
@@ -62,10 +68,11 @@ void onwinch(int x)
     v->draw();
 }
 
-Tui::Tui():
-    x_(0),
-    y_(0)
+Tui::Tui()
+    //view_x_(0),
+    //view_y_(0)
 {
+    getWinSize();
     setbuf(stdout, NULL);
 
     struct sigaction sa = {0};
@@ -117,7 +124,7 @@ void Tui::run()
     pollfd * poll_stdin_master = new struct pollfd[nfds];
     pollfd * poll_stdin_set = new struct pollfd[nfds];
 
-    poll_stdin_master[0].fd = STDIN_FILENO;
+    poll_stdin_master[0].fd = STDIN_FILENO; //== stdin == 0
     poll_stdin_master[0].events = POLLIN;
 
     while(1)
@@ -126,14 +133,16 @@ void Tui::run()
         for(unsigned int i = 0; i < nfds; ++i)
             poll_stdin_set[i] = poll_stdin_master[i];
 
-        fds_ready = poll(poll_stdin_set, nfds, timer_.first);
+        fds_ready = poll(poll_stdin_set, nfds, timer_.front().first);
         if(fds_ready < 0) {
             fout << "ERROR: poll" << __PRETTY_FUNCTION__ << std::endl;
             break;
         }
 
         else if(fds_ready == 0) {
-            timer_.second();
+            std::pair<long, Timeoutable> a = timer_.front();
+            //timer_.pop_front();
+            a.second();
             continue;
         }
 
@@ -167,3 +176,12 @@ void Tui::snakePainter(Coord c, Dir d)
     gotoxy(c.first, c.second);
     putchar("^v><#"[d]);
 }
+
+void Tui::rabbitPainter(const Coord c)
+{
+    gotoxy(c.first, c.second);
+    putchar('@');
+}
+
+//int Tui::getY() { return view_y_; }
+//int Tui::getX() { return view_x_; }

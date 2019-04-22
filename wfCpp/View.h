@@ -25,11 +25,14 @@ public:
     void                setModel    (Game * g) { game_ = g; };
 
     void virtual        snakePainter(Coord c, Dir d)    = 0;
+    void virtual        rabbitPainter(Coord c)          = 0;
 
-    void                setOnTimer  (int time, Timeoutable timer)
-    { timer_.first = time; timer_.second = timer; };
+    void                setOnTimer  (int time, Timeoutable timer);
 
-    std::pair<int, Timeoutable> timer_;
+    std::list <std::pair<int, Timeoutable>> timer_;
+
+    //TODO:find out how to get size of window from Tui
+    int view_x_, view_y_;
 //private:
 
 };
