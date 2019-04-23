@@ -61,13 +61,12 @@ int     Map::collide        (Entity *entity)                        { return 0; 
 
 void Map::draw(sf::RenderWindow &window)
 {
-    for(int i = 0; i < width_; i++)
-        for(int j = 0; i < height_; j++)
+    for(int i = 0; i < height_; i++)
+        for(int j = 0; j < width_; j++)
         {
-            sprite_.setTextureRect(sf::IntRect(8 * tileSize_, 12 * tileSize_, tileSize_, tileSize_));
+            sprite_.setTextureRect(sf::IntRect(i * tileSize_, j * tileSize_, tileSize_, tileSize_));
             sprite_.setPosition(i * tileSize_, j * tileSize_);
             window.draw(sprite_);
-
 
             switch(tiledMap_[i][j])
             {
@@ -98,6 +97,7 @@ void Map::draw(sf::RenderWindow &window)
                     break;
             }
             window.draw(sprite_);
+            //window.display();
         }
 }
 

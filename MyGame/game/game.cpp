@@ -34,6 +34,7 @@ int play() {
 
     while (window.isOpen())
     {
+        window.clear();
         //float time = clock.getElapsedTime().asMicroseconds();
         //clock.restart();
         //time /= 800;
@@ -44,9 +45,10 @@ int play() {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+        //window.setView(player.view_);
+        player.draw(window);
+        map.draw(window);
 
-        window.setView(player.view_);
-        window.clear(sf::Color::Blue);
         window.display();
     }
 

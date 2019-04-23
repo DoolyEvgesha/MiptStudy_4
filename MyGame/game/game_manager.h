@@ -51,12 +51,12 @@ GameManager::GameManager(Player * p, Map * m):
     player_     (p),
     map_        (m)
 {
-    font_.loadFromFile("../images/GLADES_DEMO.ttf");
+    /*font_.loadFromFile("../images/GLADES_DEMO.ttf");
     score_text_.setFont(font_);
     score_text_.setFillColor(sf::Color::Yellow);
 
     health_text_.setFont(font_);
-    health_text_.setFillColor(sf::Color::Red);
+    health_text_.setFillColor(sf::Color::Red);*/
 
     entities_.push_back(map_);
     entities_.push_back(player_);
