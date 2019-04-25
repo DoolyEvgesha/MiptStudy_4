@@ -18,25 +18,29 @@ Human::~Human()
     std::cout << "Human dctr called\n";
 }
 
-void Human::onkey(int n)
+void Human::onkey(int key)
 {
     //printf("key pressed = %d ", n);
     View * v = View::get();
-    switch (n) {
+    switch (key) {
         case 'q':
             delete v;
             exit(EXIT_SUCCESS);
         case 'd':
-            snake->direction = RIGHT;
+            if(snake->direction_ == LEFT) break;
+            snake->direction_ = RIGHT;
             break;
         case 'a':
-            snake->direction = LEFT;
+            if(snake->direction_ == RIGHT) break;
+            snake->direction_ = LEFT;
             break;
         case 'w':
-            snake->direction = UP;
+            if(snake->direction_ == DOWN) break;
+            snake->direction_ = UP;
             break;
         case 's':
-            snake->direction = DOWN;
+            if(snake->direction_ == UP) break;
+            snake->direction_ = DOWN;
             break;
     }
     //game->move();

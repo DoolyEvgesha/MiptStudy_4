@@ -5,9 +5,10 @@
 
 class Control{
 public:
-    explicit Control(Snake * s){ snake = s; };
-    Snake * snake;
-    virtual void onMove() = 0;
+    explicit        Control (Snake * s){ snake = s; };
+    Snake *         snake;
+    virtual void    onMove  () = 0;
+    ~Control() {}
 };
 
 #endif //CONTROL_H

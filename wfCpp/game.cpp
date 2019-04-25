@@ -3,6 +3,7 @@
 #include "game.h"
 #include "View.h"
 #include "control.h"
+#include "tui.h"
 #include <random>
 
 int Coord::distance(const Coord & c) const {return (c.first + c.second);}
@@ -10,47 +11,51 @@ int Coord::distance(const Coord & c) const {return (c.first + c.second);}
 optional<Coord> Game::near(const Coord &c) const
 {
     int min = INT_MAX;
-    optional<Coord> closest_rabbit;//no value
+    optional<Coord> closest_rabbit; //no value
 
     for(auto i : rabbits)
     {
         if(i.distance(c) < min)
         {
             min = i.distance(c);
-            closest_rabbit = i;// if there is somwthing, we take it
+            fout << "min" << min << std::endl;
+            closest_rabbit = i; // if there is somwthing, we take it
         }
     }
+    fout << "closest_rabbit:" << closest_rabbit->first << " " << closest_rabbit->second << std::endl;
     return closest_rabbit;
 }
 
 Game::Game()
 {
     View * v = View::get();
-    v->setOnTimer(500, std::bind(&Game::move, this));
+    v->setOnTimer(500, std::bind(&Game::move, this)); //TODO:maybe change for 500 instead of SNAKE_TIME
 
-    for(int i = 0; i < 5; ++i)
+    for(int i = 0; i < RABBITS_AMOUNT; ++i)
     {
         createRabbit();
         View::get()->timer_.pop_back();
     }
 
-    v->setOnTimer(500, std::bind(&Game::move, this));
-    v->setOnTimer(5,   std::bind(&Game::move, this));
+    v->setOnTimer(SNAKE_TIME,  std::bind(&Game::move, this));
+    v->setOnTimer(RABBIT_TIME, std::bind(&Game::move, this));
 }
 
 Snake::Snake()
 {
-    direction   = RIGHT;
-    Coord start = Game::get()->getFreeCoord();
+    alive_       = true;
+    direction_   = RIGHT;
+    Coord start  = Game::get()->getFreeCoord();
     for(int i = 0; i < 4; i++)
-        body.emplace_back(Coord(start.first, start.second));
+        body_.emplace_back(Coord(start.first, start.second));
     //TODO:check why Idea told to replace push_back with emplace_back
-        //body.push_back(Coord(start.first, start.second));
+    //body.push_back(Coord(start.first, start.second));
 }
 
 Snake::Snake(const Snake & s):
-    direction   (s.direction),
-    body        (s.body)
+    direction_   (s.direction_),
+    body_        (s.body_),
+    alive_       (s.alive_)
 {}
 
 Game * Game::game_inst_;
@@ -87,7 +92,7 @@ bool Game::isFree(const Coord c) const
 {
     //check that snake doesn't eat itself
     for(const auto i : snakes)
-        for(const auto &b : i->body)
+        for(const auto &b : i->body_)
             if(c == b)
                 return false;
 
@@ -105,15 +110,16 @@ bool Game::isFree(const Coord c) const
     return true;
 }
 
-void Game::paint(SnakePainter snake_pointer, RabbitPainter rabbit_painter)
+void Game::paint(SnakePainter snake_painter, RabbitPainter rabbit_painter)
 {
-    bool f = true;
+    bool head;//print the head of snake or print it's body
     for(const auto s: snakes)
     {
-        for(const auto & c:s->body)
+        head = true;
+        for(const auto & b: s->body_)
         {
-            snake_pointer(c, f ? s->direction: NO);
-            f = false;
+            snake_painter(b, head ? s->direction_: NO);
+            head = false;
         }
     }
 
@@ -129,28 +135,48 @@ void Game::add(Snake * p)
 
 Snake& Snake::operator=(Snake const &s)
 {
-    body = s.body;
-    direction = s.direction;
-    return *this;
+    body_       = s.body_;
+    direction_  = s.direction_;
+    return      *this;
 }
 
 void Game::move()
 {
+    bool game_over = true;
+
+    View * v = View::get();
+    //if there is even one snake alive, game goes on
+    for(const auto & s: snakes)
+        if(s->alive_)
+        {
+            game_over = false;
+            break;
+        }
+    //otherwise, if all of them are dead, game is over
+    //if(game_over) ;
+
+    //View::get()->
+
+    for(auto s: snakes)
+        if(s->alive_)
+            s->move();
+
+    v->draw();
+    v->setOnTimer(SNAKE_TIME, std::bind(&Game::move, this));
+    //TODO:????????????????????????????
     for(auto c:controls)
     {
         c->onMove();
     }
-    for(auto s:snakes)
-    {
-        s->move();
-    }
+    //?????????????????????????????????
+    /*for(auto s:snakes) { s->move(); }*/
 }
 
 Coord Snake::next()
 {
-    auto a = body.front();
+    auto a = body_.front();
 
-    switch(direction){
+    switch(direction_){
         case UP:
             a.first--;
             break;
@@ -174,29 +200,33 @@ void Snake::move(){
     switch(Game::get()->checkForSnakes(a))
     {
         case ' ':
-            body.push_front(a);
-            body.pop_back();
+            body_.push_front(a);
+            body_.pop_back();
             break;
 
+        //if snake eats itself, then it dies
         case 's':
-            //TODO:snake dies
+            alive_ = false;
+            fout << "GAME OVER: snake" << std::endl;
             break;
-
+        //if it goes out of boundaries, it also dies
         case 'b':
-            //TODO:snake dies as well
+            alive_ = false;
+            fout << "GAME OVER: boundaries" << std::endl;
             break;
-
+        //eats a rabbit
+        //mmmmmm... delicious
         case 'r':
             Game::get()->killRabbit(a);
-            body.push_front(a);
+            body_.push_front(a);
             break;
 
         default:
             break;
     }
-
-    body.push_front(a);
-    body.pop_back();
+    //TODO:check for pure virtual method called (dctr)
+    //body_.push_front(a);
+    //body_.pop_back();
 }
 
 void Game::killRabbit(const Coord c)
@@ -213,7 +243,7 @@ char Game::checkForSnakes(const Coord c) const
 {
 
     for(const auto i : snakes)
-        for(const auto & b : i->body)
+        for(const auto & b : i->body_)
             if(c == b)
                 return 's';
 
@@ -222,10 +252,11 @@ char Game::checkForSnakes(const Coord c) const
             return 'r';
 
     //check for bounds
-    if(c.first == 1 || c.second == 1 || c.second == View::get()->view_x_ || c.second == View::get()->view_y_)
+    //fout << View::get()->view_x_ << " " << View::get()->view_y_ << std::endl;
+    if(c.first <= 1 || c.second <= 1 || c.first >= View::get()->view_x_ || c.second >= View::get()->view_y_)
         return 'b';
 
-    return ' ';
+    return ' ';//coordinate is free
 }
 
 void Game::createRabbit()

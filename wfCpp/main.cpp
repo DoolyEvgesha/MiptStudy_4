@@ -10,19 +10,19 @@
 
 int main() {
     View * v = View::get();
-    Game g;
+    Game * g = Game::get();//????????????
     Snake s;
 
     Snake s_ai;
-    Ai ai(&s_ai, &g);
+    Ai ai(&s_ai, g);
 
-    Human h(&s, &g);
-    g.add(&s);
+    Human h(&s, g);
+    g->add(&s);
 
-    g.controls.push_back(&ai);
-    g.add(&s_ai);
+    g->controls.push_back(&ai);
+    g->add(&s_ai);
 
-    v->setModel(&g);
+    v->setModel(g);
     v->draw();
     v->run();
 

@@ -17,9 +17,15 @@ enum Dir{
     NO      = 4,
 };
 
+enum NUMBERS{
+    RABBITS_AMOUNT  = 10,
+    SNAKE_TIME      = 400000000,
+    RABBIT_TIME     = 5
+};
+
 //using Coord = std::pair<int, int>;
 
-struct Coord:public std::pair<int, int>{
+struct Coord : public std::pair<int, int>{
   using Base = std::pair<int, int>;
   int distance(const Coord&)const;
   using Base::Base;
@@ -30,8 +36,9 @@ public:
     Snake                               ();
     Snake                               (const Snake &);
 
-    std::list<Coord>        body;
-    Dir                     direction;
+    std::list<Coord>        body_;
+    Dir                     direction_;
+    bool                    alive_;
     Snake &                 operator=   (Snake const &s);
     void                    move        ();
     Coord                   next        ();

@@ -3,6 +3,7 @@
 
 #include "game.h"
 #include "keypressable.h"
+#include "ai.h"
 
 using Timeoutable = std::function<void ()>;
 
@@ -20,6 +21,8 @@ public:
 
     void                setOnKey    (KeyPressable * key) { onkey_delegate_ = key; };
     KeyPressable *      onkey_delegate_;
+    Ai *                ai_delegate_;
+    void                setOnAi     (Ai * ai)            { ai_delegate_ = ai; };
 
     Game *              game_;
     void                setModel    (Game * g) { game_ = g; };

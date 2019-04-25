@@ -51,7 +51,7 @@ void Tui::getWinSize()
     struct winsize ws;
     ioctl(1, TIOCGWINSZ, &ws);
 
-    view_x_ = 80;
+    view_x_ = 80; //check there is no division by zero (floating point exception)
     view_y_ = 80;
 
     view_x_ = ws.ws_row;
@@ -61,11 +61,9 @@ void Tui::getWinSize()
     //return res;
 }
 
-void onwinch(int x)
+void onwinch(int x) //we ought to have an argument, even if it is not used
 {
-    View * v = View::get();
-
-    v->draw();
+    View::get()->draw();
 }
 
 Tui::Tui()
@@ -81,7 +79,7 @@ Tui::Tui()
     sigaction(SIGWINCH, &sa, 0);
 
     struct termios cur_mode;
-    tcgetattr(STDIN_FILENO, &cur_mode);
+    tcgetattr(STDIN_FILENO, &cur_mode); //stdin == 0
     old_ = cur_mode;
     cfmakeraw(&cur_mode);
     tcsetattr(STDIN_FILENO, TCSANOW, &cur_mode);

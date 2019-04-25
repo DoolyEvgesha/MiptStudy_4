@@ -6,8 +6,7 @@
 
 View * View::inst_ = nullptr;
 
-View::~View()
-{ inst_ = nullptr; }
+View::~View() { inst_ = nullptr; }
 
 View * View::get()
 {

@@ -2,6 +2,7 @@
 #define TUI_H
 
 #include <termios.h>
+#include <fstream>
 #include "View.h"
 
 #define PR_COOR(FUNC, x, y)                                 \
@@ -22,15 +23,15 @@ public:
     Tui();
     ~Tui();
 
-    void    draw();
-    void    getWinSize();
-    void    drawLineY(int, int, int);
-    void    drawLineX(int, int, int);
-    void    gotoxy(int, int);//moves to the certain possition
-    void    run();
-    void    clearScreen();
-    void    snakePainter(Coord, Dir);
-    void    rabbitPainter(const Coord);
+    void    draw            ();
+    void    getWinSize      ();
+    void    drawLineY       (int, int, int);
+    void    drawLineX       (int, int, int);
+    void    gotoxy          (int, int); //moves to the certain position
+    void    run             ();
+    void    clearScreen     ();
+    void    snakePainter    (Coord, Dir);
+    void    rabbitPainter   (const Coord);
 
     //int     getX();
     //int     getY();
