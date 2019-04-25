@@ -27,7 +27,7 @@ enum NUMBERS{
 
 struct Coord : public std::pair<int, int>{
   using Base = std::pair<int, int>;
-  int distance(const Coord&)const;
+  int distance(const Coord& c1/*, const Coord & c2*/)const;
   using Base::Base;
 };
 

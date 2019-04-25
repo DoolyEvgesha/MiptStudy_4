@@ -1,44 +1,513 @@
-min65
-closes_rabbit:34 87
-min64
-closes_rabbit:34 87
-min63
-closes_rabbit:34 87
-min62
-closes_rabbit:34 87
-min61
-closes_rabbit:34 87
-min60
-closes_rabbit:34 87
-min59
-closes_rabbit:34 87
-min58
-closes_rabbit:34 87
-min57
-closes_rabbit:34 87
 min56
-closes_rabbit:34 87
-min55
-closes_rabbit:34 87
-min54
-closes_rabbit:34 87
-min53
-closes_rabbit:34 87
-min52
-closes_rabbit:34 87
-min51
-closes_rabbit:34 87
-min50
-closes_rabbit:34 87
-min49
-closes_rabbit:34 87
-min48
-closes_rabbit:34 87
-min47
-closes_rabbit:34 87
 min46
-closes_rabbit:34 87
+min32
+closest_rabbit:28 69
+min55
 min45
-closes_rabbit:34 87
+min31
+closest_rabbit:28 69
+min54
 min44
-closes_rabbit:34 87
+min30
+closest_rabbit:28 69
+min53
+min43
+min29
+closest_rabbit:28 69
+min52
+min42
+min28
+closest_rabbit:28 69
+min51
+min41
+min27
+closest_rabbit:28 69
+min50
+min40
+min26
+closest_rabbit:28 69
+min49
+min39
+min25
+closest_rabbit:28 69
+min48
+min38
+min24
+closest_rabbit:28 69
+min47
+min37
+min23
+closest_rabbit:28 69
+min46
+min36
+min22
+closest_rabbit:28 69
+min45
+min35
+min21
+closest_rabbit:28 69
+min44
+min34
+min20
+closest_rabbit:28 69
+min43
+min33
+min19
+closest_rabbit:28 69
+min42
+min32
+min18
+closest_rabbit:28 69
+min41
+min31
+min17
+closest_rabbit:28 69
+min40
+min30
+min16
+closest_rabbit:28 69
+min39
+min29
+min15
+closest_rabbit:28 69
+min38
+min28
+min14
+closest_rabbit:28 69
+min37
+min27
+min13
+closest_rabbit:28 69
+min36
+min26
+min12
+closest_rabbit:28 69
+min35
+min25
+min11
+closest_rabbit:28 69
+min34
+min24
+min10
+closest_rabbit:28 69
+min33
+min23
+min9
+closest_rabbit:28 69
+min32
+min24
+min8
+closest_rabbit:28 69
+min31
+min25
+min7
+closest_rabbit:28 69
+min30
+min26
+min6
+closest_rabbit:28 69
+min29
+min27
+min5
+closest_rabbit:28 69
+min28
+min4
+closest_rabbit:28 69
+min27
+min3
+closest_rabbit:28 69
+min26
+min2
+closest_rabbit:28 69
+min25
+min1
+closest_rabbit:28 69
+min24
+closest_rabbit:34 87
+min23
+closest_rabbit:34 87
+min22
+closest_rabbit:34 87
+min21
+closest_rabbit:34 87
+min20
+closest_rabbit:34 87
+min19
+closest_rabbit:34 87
+min18
+closest_rabbit:34 87
+min17
+closest_rabbit:34 87
+min16
+closest_rabbit:34 87
+min15
+closest_rabbit:34 87
+min14
+closest_rabbit:34 87
+min13
+closest_rabbit:34 87
+min12
+closest_rabbit:34 87
+min11
+closest_rabbit:34 87
+min10
+closest_rabbit:34 87
+min9
+closest_rabbit:34 87
+min8
+closest_rabbit:34 87
+min7
+closest_rabbit:34 87
+min6
+closest_rabbit:34 87
+min5
+closest_rabbit:34 87
+min4
+closest_rabbit:34 87
+min3
+closest_rabbit:34 87
+min2
+closest_rabbit:34 87
+min1
+closest_rabbit:34 87
+min76
+min20
+min12
+closest_rabbit:29 94
+min75
+min19
+min11
+closest_rabbit:29 94
+min74
+min18
+min10
+closest_rabbit:29 94
+min73
+min17
+min9
+closest_rabbit:29 94
+min72
+min16
+min8
+closest_rabbit:29 94
+min71
+min15
+min7
+closest_rabbit:29 94
+min70
+min14
+min6
+closest_rabbit:29 94
+min69
+min15
+min5
+closest_rabbit:29 94
+min68
+min16
+min4
+closest_rabbit:29 94
+min67
+min15
+min3
+closest_rabbit:29 94
+min66
+min14
+min2
+closest_rabbit:29 94
+min65
+min13
+min1
+closest_rabbit:29 94
+min64
+min12
+closest_rabbit:19 92
+min65
+min11
+closest_rabbit:19 92
+min64
+min10
+closest_rabbit:19 92
+min65
+min9
+closest_rabbit:19 92
+min64
+min8
+closest_rabbit:19 92
+min63
+min7
+closest_rabbit:19 92
+min62
+min6
+closest_rabbit:19 92
+min61
+min5
+closest_rabbit:19 92
+min60
+min4
+closest_rabbit:19 92
+min59
+min3
+closest_rabbit:19 92
+min58
+min2
+closest_rabbit:19 92
+min57
+min1
+closest_rabbit:19 92
+min56
+min22
+min15
+closest_rabbit:4 92
+min55
+min23
+min14
+closest_rabbit:4 92
+min54
+min24
+min13
+closest_rabbit:4 92
+min53
+min25
+min12
+closest_rabbit:4 92
+min52
+min26
+min11
+closest_rabbit:4 92
+min51
+min27
+min10
+closest_rabbit:4 92
+min50
+min28
+min9
+closest_rabbit:4 92
+min49
+min29
+min8
+closest_rabbit:4 92
+min48
+min30
+min7
+closest_rabbit:4 92
+min47
+min31
+min6
+closest_rabbit:4 92
+min46
+min32
+min5
+closest_rabbit:4 92
+min45
+min33
+min4
+closest_rabbit:4 92
+min44
+min34
+min3
+closest_rabbit:4 92
+min43
+min35
+min2
+closest_rabbit:4 92
+min42
+min36
+min1
+closest_rabbit:4 92
+min43
+min37
+closest_rabbit:22 111
+min42
+min36
+closest_rabbit:22 111
+min41
+min35
+closest_rabbit:22 111
+min40
+min34
+closest_rabbit:22 111
+min39
+min33
+closest_rabbit:22 111
+min38
+min32
+closest_rabbit:22 111
+min37
+min31
+closest_rabbit:22 111
+min36
+min30
+closest_rabbit:22 111
+min35
+min29
+closest_rabbit:22 111
+min34
+min28
+closest_rabbit:22 111
+min35
+min27
+closest_rabbit:22 111
+min34
+min26
+closest_rabbit:22 111
+min35
+min25
+closest_rabbit:22 111
+min36
+min24
+closest_rabbit:22 111
+min35
+min23
+closest_rabbit:22 111
+min34
+min22
+closest_rabbit:22 111
+min35
+min21
+closest_rabbit:22 111
+min34
+min20
+closest_rabbit:22 111
+min35
+min19
+closest_rabbit:22 111
+min34
+min18
+closest_rabbit:22 111
+min35
+min17
+closest_rabbit:22 111
+min34
+min16
+closest_rabbit:22 111
+min33
+min15
+closest_rabbit:22 111
+min34
+min14
+closest_rabbit:22 111
+min35
+min13
+closest_rabbit:22 111
+min36
+min12
+closest_rabbit:22 111
+min37
+min11
+closest_rabbit:22 111
+min38
+min10
+closest_rabbit:22 111
+min37
+min9
+closest_rabbit:22 111
+min36
+min8
+closest_rabbit:22 111
+min35
+min7
+closest_rabbit:22 111
+min34
+min6
+closest_rabbit:22 111
+min35
+min5
+closest_rabbit:22 111
+min36
+min4
+closest_rabbit:22 111
+min37
+min3
+closest_rabbit:22 111
+min38
+min2
+closest_rabbit:22 111
+min39
+min1
+closest_rabbit:22 111
+min40
+closest_rabbit:5 134
+min39
+closest_rabbit:5 134
+min38
+closest_rabbit:5 134
+min37
+closest_rabbit:5 134
+min36
+closest_rabbit:5 134
+min35
+closest_rabbit:5 134
+min34
+closest_rabbit:5 134
+min33
+closest_rabbit:5 134
+min32
+closest_rabbit:5 134
+min31
+closest_rabbit:5 134
+min30
+closest_rabbit:5 134
+min29
+closest_rabbit:5 134
+min28
+closest_rabbit:5 134
+min27
+closest_rabbit:5 134
+min26
+closest_rabbit:5 134
+min25
+closest_rabbit:5 134
+min24
+closest_rabbit:5 134
+min23
+closest_rabbit:5 134
+min22
+closest_rabbit:5 134
+min21
+closest_rabbit:5 134
+min20
+closest_rabbit:5 134
+min19
+closest_rabbit:5 134
+min18
+closest_rabbit:5 134
+min17
+closest_rabbit:5 134
+min16
+closest_rabbit:5 134
+min15
+closest_rabbit:5 134
+min14
+closest_rabbit:5 134
+min13
+closest_rabbit:5 134
+min12
+closest_rabbit:5 134
+min11
+closest_rabbit:5 134
+min10
+closest_rabbit:5 134
+min9
+closest_rabbit:5 134
+min8
+closest_rabbit:5 134
+min7
+closest_rabbit:5 134
+min6
+closest_rabbit:5 134
+min5
+closest_rabbit:5 134
+min4
+closest_rabbit:5 134
+min3
+closest_rabbit:5 134
+min2
+closest_rabbit:5 134
+min1
+closest_rabbit:5 134
+closest_rabbit:0 0
+closest_rabbit:0 0
+closest_rabbit:0 0
+closest_rabbit:0 0
+closest_rabbit:0 0
+closest_rabbit:0 0

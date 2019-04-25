@@ -6,7 +6,17 @@
 #include "tui.h"
 #include <random>
 
-int Coord::distance(const Coord & c) const {return (c.first + c.second);}
+int Coord::distance(const Coord & c1/*, const Coord & c2*/) const
+{
+    int res = abs(c1.first - this->first) + abs(c1.second - this->second);
+    //int res = abs(c1.first - c2.first) + abs(c1.second - c2.second);
+    return res;
+}
+/*int distance(const Coord & c1, const Coord & c2)
+{
+    int res = abs(c1.first - c2.first) + abs(c1.second - c2.second);
+    return res;
+}*/
 
 optional<Coord> Game::near(const Coord &c) const
 {
