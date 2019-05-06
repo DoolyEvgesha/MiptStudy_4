@@ -11,6 +11,9 @@ const char mapImageFile[]       = "images/map.png";
 
 const int game_speed = 1000;
 
+const int x_window_size = 640;
+const int y_window_size = 480;
+
 enum textures
 {
     player_texture,

@@ -6,35 +6,35 @@
 #include "../entity.h"
 
 const int HEIGHT_MAP        = 25;
-const int WIDTH_MAP         = 40;
+const int WIDTH_MAP         = 60;
 const int TILE_SIZE         = 32; //define it later!
 
 static sf::String TileMap[HEIGHT_MAP] = { //?????????? how to replace the loot?
-        "0000000000000000000000000000000000000000",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0    ssh                               0",
-        "0    0000                              0",
-        "0                                      0",
-        "0              ss   0000               0",
-        "0           000000000000               0",
-        "0           000000000000               0",
-        "0   f    h  000000000000 h             0",
-        "0000000000000000000000000000000000000000",
+        "000000000000000000000000000000000000000000000000000000000000",
+        "0                                                          0",
+        "0                                                          0",
+        "0       f                                                  0",
+        "0                    f                                     0",
+        "0                                                          0",
+        "0                                                          0",
+        "0              s                                           0",
+        "0                                                          0",
+        "0                                                          0",
+        "0                                                          0",
+        "0                                                          0",
+        "0                                                          0",
+        "0                                                          0",
+        "0                                                          0",
+        "0                                                          0",
+        "0                                                          0",
+        "0    ssh                                                   0",
+        "0    0000                                                  0",
+        "0                                                          0",
+        "0              ss   0000                                   0",
+        "0           000000000000                                   0",
+        "0           000000000000                                   0",
+        "0   f    h  000000000000 h                                 0",
+        "000000000000000000000000000000000000000000000000000000000000",
 };
 
 class Map : public Entity{
@@ -42,7 +42,7 @@ public:
     Map(const sf::String TileMap[], int map_height, int map_width, int tile_size,
         const sf::Texture *move_animation_texture);
 
-    void    update      (float time, const sf::Event &event)    override;
+    int     update      (float time, const sf::Event &event)    override;
     void    draw        (sf::RenderWindow &window)              override;
     int     getDirection(const sf::Event &event)                override;
     int     collide     (Entity *entity)                        override;
@@ -55,20 +55,21 @@ private:
     int                 tileSize_;
 };
 
-void    Map::update         (float time, const sf::Event &event)    { changeFrame(time); }
+int     Map::update         (float time, const sf::Event &event)    { changeFrame(time); }
 int     Map::getDirection   (const sf::Event &event)                { return 0; }
 int     Map::collide        (Entity *entity)                        { return 0; }
 
 void Map::draw(sf::RenderWindow &window)
 {
-    for(int i = 0; i < height_; i++)
-        for(int j = 0; j < width_; j++)
+    for(int i = 0; i < width_; i++)
+        for(int j = 0; j < height_; j++)
         {
-            sprite_.setTextureRect(sf::IntRect(i * tileSize_, j * tileSize_, tileSize_, tileSize_));
+            sprite_.setTextureRect(sf::IntRect(/*i * tileSize_*/ 0, /*j * tileSize_*/ 0, tileSize_, tileSize_));
+            //sprite_.setPosition(i * tileSize_, j * tileSize_);
             sprite_.setPosition(i * tileSize_, j * tileSize_);
             window.draw(sprite_);
 
-            switch(tiledMap_[i][j])
+            switch(tiledMap_[j][i])
             {
                 case ' ':
                     sprite_.setTextureRect(sf::IntRect(0, 0, TILE_SIZE, TILE_SIZE));

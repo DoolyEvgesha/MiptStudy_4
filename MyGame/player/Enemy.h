@@ -16,12 +16,12 @@ public:
 
     int         move        () override;
     void        draw        (sf::RenderWindow &window) override { window.draw(sprite_); }
-    void        update      (float time, const sf::Event & event) override;
+    int         update      (float time, const sf::Event & event) override;
     int         collide     (Entity * entity) override;
     int         getDirection(const sf::Event &event) override {}
 };
 
-void Enemy::update(float time, const sf::Event &event)
+int Enemy::update(float time, const sf::Event &event)
 {
     changeFrame(time);
 

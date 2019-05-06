@@ -4,7 +4,6 @@
 #include <list>
 
 #include "../player/player.h"
-#include "../view/view.h"
 #include "../mission.h"
 #include "../player/Enemy.h"
 #include "../map/map.h"
@@ -20,24 +19,20 @@
 int play() {
     setTextures();
 
-    sf::RenderWindow window(sf::VideoMode(640, 480), "My Game UwU");
-    view.reset(sf::FloatRect(0, 0, 640, 480));
+    sf::RenderWindow window(sf::VideoMode(x_window_size, y_window_size), "My Game UwU");
+    //view.reset(sf::FloatRect(0, 0, 640, 480));
 
     Map map(TileMap, HEIGHT_MAP, WIDTH_MAP, TILE_SIZE, &textures[map_texture]);
 
     Player player(1000, 300, player_w, player_h, player_s, player_animation_s, move_frame_amount,
             player_collide_area, &textures[PLAYER]);
 
-    player.view_.reset(sf::FloatRect(0, 0, 640, 480));
+    player.view_.reset(sf::FloatRect(0, 0, x_window_size, y_window_size));
     GameManager gamemanager(&player, &map);
-    //sf::Clock clock;
 
     while (window.isOpen())
     {
-        window.clear();
-        //float time = clock.getElapsedTime().asMicroseconds();
-        //clock.restart();
-        //time /= 800;
+        //window.clear();
 
         sf::Event event;
         while (window.pollEvent(event))
@@ -45,9 +40,17 @@ int play() {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        //window.setView(player.view_);
-        player.draw(window);
-        map.draw(window);
+
+        window.setView(player.view_);
+        //map.draw(window);
+        //window.display();
+        //player.draw(window);
+        window.clear(sf::Color::Yellow);
+
+        if(gamemanager.interact(event, window) == 1)
+        {
+            window.close();
+        }
 
         window.display();
     }

@@ -71,7 +71,7 @@ void GameManager::collide(const sf::Event &event, sf::RenderWindow &window)
     //check the state of an object
     //delete if it is dead
     //and erase in that case
-    for(auto i = entities_.begin(); i != entities_.end(); i++)
+    for(auto it = entities_.begin(); it != entities_.end(); it++)
     {
         cur_entity = *it;
 

@@ -21,17 +21,17 @@ public:
     int             getHealth      ();
     sf::Vector2f    getViewCoord   ();
 
-    sf::View     view_;
+    sf::View        view_;
 
     void draw                   (sf::RenderWindow &window)              override;
-    void update                 (float time, const sf::Event &event)    override;
+    int  update                 (float time, const sf::Event &event)    override;
     int  getDirection           (const sf::Event& event)                override;
     int  move                   ()                                      override;
     int  collide                (Entity * entity)                       override;
 
 private:
-    int                         health_;
-    sf::Vector2f                viewCoord_;
+    int              health_;
+    sf::Vector2f     viewCoord_;
 
 };
 
@@ -47,7 +47,8 @@ int Player::getDirection(const sf::Event &event)
    /* if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         return _DIR;*/
    //TODO: rethink the way to get out if the problem occurs
-    exit(EXIT_FAILURE);
+   return -1;
+    //exit(EXIT_FAILURE);
 }
 
 int Player::move()
@@ -56,7 +57,7 @@ int Player::move()
     view_.setCenter(viewCoord_);
 }
 
-void Player::update(float time, const sf::Event &event)
+int Player::update(float time, const sf::Event &event)
 {
     sprite_.setColor(sf::Color::White);
     changeFrame(time);
@@ -89,7 +90,8 @@ void Player::update(float time, const sf::Event &event)
 
     }
     //TODO:write the proper exit
-    exit(EXIT_FAILURE);
+    return 0;
+    //exit(EXIT_FAILURE);
 }
 
 int Player::collide(Entity *entity)
@@ -130,6 +132,10 @@ Player::Player(float x, float y, int w, int h, float speed, float animation_spee
 
 int             Player::getHealth   ()                         { return height_; }
 sf::Vector2f    Player::getViewCoord()                         { return viewCoord_; }
-void            Player::draw        (sf::RenderWindow &window) { window.draw(sprite_); }
+void            Player::draw        (sf::RenderWindow &window)
+{
+    window.draw(sprite_);
+    window.display();
+}
 
 #endif //MYGAME_PLAYER_H

@@ -125,7 +125,7 @@ class Entity : public visualEntity, public physEntity
 public:
     Entity(float x, float y, int text_width, int text_height, float speed, float animation_speed,
             const sf::Texture *anim_texture, int frame_size, int type, float collide_area);
-    virtual void    update      (float time, const sf::Event &event) = 0;
+    virtual int     update      (float time, const sf::Event &event) = 0;
     bool            getState    ();
     int             getType     ();
     virtual int     getDirection(const sf::Event &event) = 0;
