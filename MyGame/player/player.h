@@ -32,6 +32,7 @@ public:
 private:
     int              health_;
     sf::Vector2f     viewCoord_;
+    bool             onGround_;
 
 };
 
@@ -40,15 +41,21 @@ int Player::getDirection(const sf::Event &event)
 {
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         return LEFT_DIR;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        return UP_DIR;
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && onGround_)
+    {
+        onGround_ = false;
+        return JUMP;
+    }
+
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         return RIGHT_DIR;
+
    /* if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         return _DIR;*/
    //TODO: rethink the way to get out if the problem occurs
-   return -1;
-    //exit(EXIT_FAILURE);
+   //return -1
+   return STAY;
 }
 
 int Player::move()
@@ -79,12 +86,14 @@ int Player::update(float time, const sf::Event &event)
             direction_  = LEFT_DIR;
             break;
 
-        case UP_DIR:
-            changeFramePosition(UP_DIR);
-            dir_.y      = - speed_ * time;
-            direction_  = UP_DIR;
+        case JUMP:
+            changeFramePosition(JUMP);
+            dir_.y      += time * 0.0015; //gravitation to the ground
+            //dir_.y      = - speed_ * time;
+            direction_  = JUMP;
             break;
-        default:
+
+        default: //STAY
             stopFrame(direction_);
             break;
 
@@ -96,12 +105,51 @@ int Player::update(float time, const sf::Event &event)
 
 int Player::collide(Entity *entity)
 {
-    switch(entity->getType())
-    {
+    switch(entity->getType()) {
         case MAP:
+        {
             //TODO:write interaction with map(lives, stones, etc)
-            break;
+            auto map = dynamic_cast<Map *> (entity);
 
+            if (bodyCoord_.x < map->getTileSize()) {
+                bodyCoord_.x    = map->getTileSize();
+                sprite_coord_.x = map->getTileSize() - visualEntity::width_ / 2;
+            }
+
+            if (bodyCoord_.y < 0.7 * map->getTileSize()) {
+                bodyCoord_.y    = 0.7 * map->getTileSize();;
+                sprite_coord_.y = 0.7 * map->getTileSize() - Player::height_ / 2;
+            }
+
+            if (physEntity::bodyCoord_.x > map->getTileSize() * map->getWidth() - map->getTileSize()) {
+                bodyCoord_.x    = map->getTileSize() * map->getWidth() - map->getTileSize();
+                sprite_coord_.x = map->getTileSize() * map->getWidth() - Player::width_ / 2 - map->getTileSize();
+            }
+
+            if (bodyCoord_.y > map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize()) {
+                bodyCoord_.y    = map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize();
+                sprite_coord_.y = map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize() - Player::height_ / 2;
+            }
+
+            sf::Vector2f a;
+            a = bodyCoord_;
+
+            if (physEntity::bodyCoord_.x < view.getSize().x / 2)
+                a.x = view.getSize().x / 2;
+
+            if (bodyCoord_.x > map->getWidth() * TILE_SIZE - view.getSize().x / 2)
+                a.x = map->getWidth() * TILE_SIZE - view.getSize().x / 2;
+
+            if (bodyCoord_.y < view.getSize().y / 2)
+                a.y = view.getSize().y / 2;
+
+            if (bodyCoord_.y > map->getHeight() * TILE_SIZE - view.getSize().y / 2)
+                a.y = map->getHeight() * TILE_SIZE - view.getSize().y / 2;
+
+            viewCoord_ = a;
+
+            break;
+        }
         case EASY_ENEMY:
             if(collideArea_ + entity->getCollideArea() > distanceModule(getLocation(), entity->getLocation()))
             {
@@ -126,7 +174,8 @@ Player::Player(float x, float y, int w, int h, float speed, float animation_spee
        float collideArea, const sf::Texture *move_animation_texture):
     Entity       (x, y, w, h, speed, animation_speed, move_animation_texture, move_frame_amount, PLAYER, collideArea),
     health_      (100),
-    viewCoord_   (physEntity::bodyCoord_)
+    viewCoord_   (physEntity::bodyCoord_),
+    onGround_    (true)
 
 {}
 
