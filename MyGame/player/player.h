@@ -28,13 +28,19 @@ public:
     int  getDirection           (const sf::Event& event)                override;
     int  move                   ()                                      override;
     int  collide                (Entity * entity)                       override;
+    int  gravitation            (float time)                            override;
 
 private:
     int              health_;
     sf::Vector2f     viewCoord_;
     bool             onGround_;
-
+    float            initialJumpSpeed_;
 };
+
+int Player::gravitation(float time)
+{
+    dir_.y += 0.0015 * time;
+}
 
 //TODO: consider directions and maybe speed the character when he is falling by "S"
 int Player::getDirection(const sf::Event &event)
@@ -42,9 +48,13 @@ int Player::getDirection(const sf::Event &event)
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         return LEFT_DIR;
 
+    if(!onGround_)
+        return JUMP;
+
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && onGround_)
     {
-        onGround_ = false;
+        onGround_   = false;
+        initialJumpSpeed_ = -3;
         return JUMP;
     }
 
@@ -88,7 +98,15 @@ int Player::update(float time, const sf::Event &event)
 
         case JUMP:
             changeFramePosition(JUMP);
-            dir_.y      += time * 0.0015; //gravitation to the ground
+
+            if(initialJumpSpeed_ < 3) {
+                dir_.y      = initialJumpSpeed_; //gravitation to the ground
+                initialJumpSpeed_ += 0.1;
+            }
+            else{
+                onGround_ = true;
+            }
+            std::cout << initialJumpSpeed_ << " " << dir_.y << std::endl;
             //dir_.y      = - speed_ * time;
             direction_  = JUMP;
             break;
@@ -111,40 +129,47 @@ int Player::collide(Entity *entity)
             //TODO:write interaction with map(lives, stones, etc)
             auto map = dynamic_cast<Map *> (entity);
 
-            if (bodyCoord_.x < map->getTileSize()) {
+            if (bodyCoord_.x    < map->getTileSize()) {
                 bodyCoord_.x    = map->getTileSize();
                 sprite_coord_.x = map->getTileSize() - visualEntity::width_ / 2;
             }
 
-            if (bodyCoord_.y < 0.7 * map->getTileSize()) {
-                bodyCoord_.y    = 0.7 * map->getTileSize();;
+            if (bodyCoord_.y    < 0.7 * map->getTileSize()) {
+                bodyCoord_.y    = 0.7 * map->getTileSize();
                 sprite_coord_.y = 0.7 * map->getTileSize() - Player::height_ / 2;
             }
 
-            if (physEntity::bodyCoord_.x > map->getTileSize() * map->getWidth() - map->getTileSize()) {
+            if (bodyCoord_.x    > map->getTileSize() * map->getWidth() - map->getTileSize()) {
                 bodyCoord_.x    = map->getTileSize() * map->getWidth() - map->getTileSize();
-                sprite_coord_.x = map->getTileSize() * map->getWidth() - Player::width_ / 2 - map->getTileSize();
+                sprite_coord_.x = map->getTileSize() * map->getWidth() - map->getTileSize() - Player::width_ / 2;
             }
 
-            if (bodyCoord_.y > map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize()) {
+            if (bodyCoord_.y    > map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize()) {
                 bodyCoord_.y    = map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize();
                 sprite_coord_.y = map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize() - Player::height_ / 2;
+            }
+
+            //TODO:now it moves up, but doesn't move down
+            if(dir_.y < 0)
+            {
+                dir_.y          = 0;
+                //onGround_       = true;
             }
 
             sf::Vector2f a;
             a = bodyCoord_;
 
-            if (physEntity::bodyCoord_.x < view.getSize().x / 2)
-                a.x = view.getSize().x / 2;
+            if (bodyCoord_.x    < view.getSize().x / 2)
+                a.x             = view.getSize().x / 2;
 
-            if (bodyCoord_.x > map->getWidth() * TILE_SIZE - view.getSize().x / 2)
-                a.x = map->getWidth() * TILE_SIZE - view.getSize().x / 2;
+            if (bodyCoord_.x    > map->getWidth() * TILE_SIZE - view.getSize().x / 2)
+                a.x             = map->getWidth() * TILE_SIZE - view.getSize().x / 2;
 
-            if (bodyCoord_.y < view.getSize().y / 2)
-                a.y = view.getSize().y / 2;
+            if (bodyCoord_.y    < view.getSize().y / 2)
+                a.y             = view.getSize().y / 2;
 
-            if (bodyCoord_.y > map->getHeight() * TILE_SIZE - view.getSize().y / 2)
-                a.y = map->getHeight() * TILE_SIZE - view.getSize().y / 2;
+            if (bodyCoord_.y    > map->getHeight() * TILE_SIZE - view.getSize().y / 2)
+                a.y             = map->getHeight() * TILE_SIZE - view.getSize().y / 2;
 
             viewCoord_ = a;
 

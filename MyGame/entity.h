@@ -132,6 +132,7 @@ public:
     bool            isAlive     ();
     virtual int     collide     (Entity * entity)   = 0;
     virtual int     move        ();
+    virtual int     gravitation (float time)        = 0;
     virtual         ~Entity     () = default;
 
 protected:

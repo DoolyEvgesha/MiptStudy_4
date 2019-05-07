@@ -90,6 +90,7 @@ void GameManager::collide(const sf::Event &event, sf::RenderWindow &window)
 
                 cur_entity->collide(*jt);
                 (*jt)->collide(cur_entity);
+                //cur_entity->gravitation(time_);
             }
         }
         if((cur_entity->getState()))

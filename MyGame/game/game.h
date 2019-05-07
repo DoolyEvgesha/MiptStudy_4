@@ -9,10 +9,10 @@ const char playerImageFile[]    = "images/MilesTailsPrower.gif";
 const char easyEnemyImageFile[] = "images/shamaich.png";
 const char mapImageFile[]       = "images/map.png";
 
-const int game_speed = 1000;
+const int game_speed            = 1000;
 
-const int x_window_size = 640;
-const int y_window_size = 480;
+const int x_window_size         = 640;
+const int y_window_size         = 480;
 
 enum textures
 {
