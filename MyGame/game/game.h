@@ -12,7 +12,7 @@ const char mapImageFile[]       = "images/map.png";
 const int game_speed            = 1000;
 
 const int x_window_size         = 640;
-const int y_window_size         = 480;
+const int y_window_size         = 680;
 
 enum textures
 {
@@ -32,7 +32,9 @@ enum directions{
     LEFT_DIR        = 2,
     RIGHT_DIR       = 3,
     JUMP            = 4,
-    STAY            = 5
+    LEFT_JUMP       = 6,
+    RIGHT_JUMP      = 7,
+    STAY            = 8
 };
 
 enum types{

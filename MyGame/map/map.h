@@ -46,7 +46,6 @@ public:
     void    draw        (sf::RenderWindow &window)              override;
     int     getDirection(const sf::Event &event)                override;
     int     collide     (Entity *entity)                        override;
-    int     gravitation (float time)                            override;
 
     int     getWidth()      { return width_;    };
     int     getHeight()     { return height_;   };
@@ -59,7 +58,6 @@ private:
 int     Map::update         (float time, const sf::Event &event)    { changeFrame(time); }
 int     Map::getDirection   (const sf::Event &event)                { return 0; }
 int     Map::collide        (Entity *entity)                        { return 0; }
-int     Map::gravitation    (float time)                            { return 0; }
 
 void Map::draw(sf::RenderWindow &window)
 {

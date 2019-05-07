@@ -6,6 +6,8 @@
 #include "../entity.h"
 #include "../game/game.h"
 
+const int JUMP_SPEED = 6;
+
 const int   player_w            = 100;
 const int   player_h            = 100;
 const float player_s            = 0.4;
@@ -28,7 +30,6 @@ public:
     int  getDirection           (const sf::Event& event)                override;
     int  move                   ()                                      override;
     int  collide                (Entity * entity)                       override;
-    int  gravitation            (float time)                            override;
 
 private:
     int              health_;
@@ -37,26 +38,28 @@ private:
     float            initialJumpSpeed_;
 };
 
-int Player::gravitation(float time)
-{
-    dir_.y += 0.0015 * time;
-}
-
 //TODO: consider directions and maybe speed the character when he is falling by "S"
 int Player::getDirection(const sf::Event &event)
 {
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        return LEFT_DIR;
+    if(!onGround_) {
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+            return LEFT_JUMP;
 
-    if(!onGround_)
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            return RIGHT_JUMP;
+
         return JUMP;
+    }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && onGround_)
     {
         onGround_   = false;
-        initialJumpSpeed_ = -3;
+        initialJumpSpeed_ = -JUMP_SPEED;
         return JUMP;
     }
+    
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        return LEFT_DIR;
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         return RIGHT_DIR;
@@ -99,16 +102,43 @@ int Player::update(float time, const sf::Event &event)
         case JUMP:
             changeFramePosition(JUMP);
 
-            if(initialJumpSpeed_ < 3) {
+            if(initialJumpSpeed_ < JUMP_SPEED) {
                 dir_.y      = initialJumpSpeed_; //gravitation to the ground
                 initialJumpSpeed_ += 0.1;
             }
             else{
                 onGround_ = true;
             }
-            std::cout << initialJumpSpeed_ << " " << dir_.y << std::endl;
-            //dir_.y      = - speed_ * time;
+
             direction_  = JUMP;
+            break;
+
+        case RIGHT_JUMP:
+            changeFramePosition(RIGHT_JUMP);
+            if(initialJumpSpeed_ < JUMP_SPEED) {
+                dir_.y      = initialJumpSpeed_; //gravitation to the ground
+                initialJumpSpeed_ += 0.1;
+            }
+            else{
+                onGround_ = true;
+            }
+
+            dir_.x      = speed_ * time;
+            direction_  = RIGHT_JUMP;
+            break;
+
+        case LEFT_JUMP:
+            changeFramePosition(LEFT_JUMP);
+            if(initialJumpSpeed_ < JUMP_SPEED) {
+                dir_.y      = initialJumpSpeed_; //gravitation to the ground
+                initialJumpSpeed_ += 0.1;
+            }
+            else{
+                onGround_ = true;
+            }
+
+            dir_.x      = -speed_ * time;
+            direction_  = LEFT_JUMP;
             break;
 
         default: //STAY
@@ -147,13 +177,6 @@ int Player::collide(Entity *entity)
             if (bodyCoord_.y    > map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize()) {
                 bodyCoord_.y    = map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize();
                 sprite_coord_.y = map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize() - Player::height_ / 2;
-            }
-
-            //TODO:now it moves up, but doesn't move down
-            if(dir_.y < 0)
-            {
-                dir_.y          = 0;
-                //onGround_       = true;
             }
 
             sf::Vector2f a;
