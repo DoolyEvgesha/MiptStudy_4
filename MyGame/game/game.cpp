@@ -41,6 +41,8 @@ int play() {
                 window.close();
         }
 
+        /*player.draw(window);
+        window.display();*/
         window.setView(player.view_);
         //map.draw(window);
         //window.display();
@@ -68,6 +70,11 @@ void setTextures()
 {
     textures = new sf::Texture[texture_amount];
 
+    sf::Image heroImage;
+    heroImage.loadFromFile(playerImageFile);
+    //heroImage.createMaskFromColor(sf::Color::Black);
+    textures[player_texture].loadFromImage(heroImage);
+
     sf::Image mapImage;
     mapImage.loadFromFile(mapImageFile);
     textures[map_texture].loadFromImage(mapImage);
@@ -76,12 +83,6 @@ void setTextures()
     //map.loadFromImage(mapImage);
     //sf::Sprite s_map;
     //s_map.setTexture(map);
-
-    sf::Image heroImage;
-    heroImage.loadFromFile(playerImageFile);
-    heroImage.createMaskFromColor(sf::Color::Black);
-    textures[player_texture].loadFromImage(heroImage);
-
 
     sf::Image easyEnemyImage;
     easyEnemyImage.loadFromFile(easyEnemyImageFile);

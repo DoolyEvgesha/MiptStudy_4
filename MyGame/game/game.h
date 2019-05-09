@@ -6,8 +6,8 @@
 static sf::Texture *textures;
 
 const char playerImageFile[]    = "images/MilesTailsPrower.gif";
-const char easyEnemyImageFile[] = "images/shamaich.png";
 const char mapImageFile[]       = "images/map.png";
+const char easyEnemyImageFile[] = "images/shamaich.png";
 
 const int game_speed            = 1000;
 
@@ -17,8 +17,8 @@ const int y_window_size         = 680;
 enum textures
 {
     player_texture,
-    easyenemy_texture,
     map_texture,
+    easyenemy_texture,
     texture_amount
     //this is needed for an array of texture
     //to know it maximum size

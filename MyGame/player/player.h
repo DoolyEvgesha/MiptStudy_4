@@ -57,7 +57,7 @@ int Player::getDirection(const sf::Event &event)
         initialJumpSpeed_ = -JUMP_SPEED;
         return JUMP;
     }
-    
+
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         return LEFT_DIR;
 
