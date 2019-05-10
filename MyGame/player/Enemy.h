@@ -18,7 +18,7 @@ public:
     void        draw        (sf::RenderWindow &window) override { window.draw(sprite_); }
     int         update      (float time, const sf::Event & event) override;
     int         collide     (Entity * entity) override;
-    int         getDirection(const sf::Event &event) override {}
+    int         getDirection(const sf::Event &event) override { return 0; }
 };
 
 int Enemy::update(float time, const sf::Event &event)
@@ -50,6 +50,7 @@ int Enemy::update(float time, const sf::Event &event)
     }
     else
         changeFramePosition(physEntity::direction_);
+    return 0;
 }
 
 int Enemy::collide(Entity *entity)
@@ -90,5 +91,6 @@ int Enemy::move()
 {
     physEntity::move(dir_.x, dir_.y);
     visualEntity::move(dir_.x, dir_.y);
+    return 0;
 }
 #endif //MYGAME_ENEMY_H

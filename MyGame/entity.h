@@ -39,7 +39,7 @@ int             physEntity::getDir()        { return direction_;    }
 float           physEntity::getCollideArea(){ return collideArea_;  }
 sf::Vector2f    physEntity::getLocation()   { return bodyCoord_;    }
 
-int physEntity::move(float dx, float dy) { bodyCoord_.x += dx; bodyCoord_.y += dy; }
+int physEntity::move(float dx, float dy) { bodyCoord_.x += dx; bodyCoord_.y += dy; return 0;}
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 //this is responsible for all textures
@@ -84,6 +84,7 @@ int visualEntity::move(float dx, float dy)
 {
     sprite_coord_ += sf::Vector2f(dx, dy);
     sprite_.setPosition(sprite_coord_);
+    return 0;
 }
 
 int visualEntity::changeFrame(float time)
@@ -91,17 +92,20 @@ int visualEntity::changeFrame(float time)
     current_frame_ += time * animation_speed_;
     if(current_frame_ > frame_size_)
         current_frame_ = 0;
+    return 0;
 }
 
 int visualEntity::stopFrame(int direction)
 {
     sprite_.setTextureRect(sf::IntRect(0, direction * height_, width_, height_));
+    return 0;
 }
 
 int visualEntity::changeFramePosition(int dir)
 {
     sprite_.setTextureRect(sf::IntRect(width_ * (int)current_frame_, height_ * dir,
             width_, height_));
+    return 0;
 }
 
 void visualEntity::changeTexture(const sf::Texture *texture, int width, int height, int frame_size,
@@ -145,6 +149,7 @@ int Entity::move()
 {
     physEntity::move(dir_.x, dir_.y);
     visualEntity::move(dir_.x, dir_.y);
+    return 0;
 }
 
 Entity::Entity(float x, float y, int text_width, int text_height, float speed, float animation_speed,

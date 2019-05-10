@@ -75,6 +75,7 @@ int Player::move()
 {
     Entity::move();
     view_.setCenter(viewCoord_);
+    return 0;
 }
 
 int Player::update(float time, const sf::Event &event)
@@ -214,7 +215,7 @@ int Player::collide(Entity *entity)
         default:
             break;
     }
-
+    return 0;
 }
 
 

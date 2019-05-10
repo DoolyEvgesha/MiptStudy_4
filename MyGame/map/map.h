@@ -54,7 +54,7 @@ private:
     int                 tileSize_;
 };
 
-int     Map::update         (float time, const sf::Event &event)    { changeFrame(time); }
+int     Map::update         (float time, const sf::Event &event)    { changeFrame(time); return 0; }
 int     Map::getDirection   (const sf::Event &event)                { return 0; }
 int     Map::collide        (Entity *entity)                        { return 0; }
 

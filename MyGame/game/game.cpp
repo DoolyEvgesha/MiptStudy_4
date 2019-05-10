@@ -25,7 +25,7 @@ int play() {
     Map map(TileMap, HEIGHT_MAP, WIDTH_MAP, TILE_SIZE, &textures[map_texture]);
 
     Player player(1000, 500, player_w, player_h, player_s, player_animation_s, move_frame_amount,
-            player_collide_area, &textures[PLAYER]);
+            player_collide_area, &textures[player_texture]);
 
     player.view_.reset(sf::FloatRect(0, 0, x_window_size, y_window_size));
     GameManager gamemanager(&player, &map);
@@ -41,8 +41,8 @@ int play() {
                 window.close();
         }
 
-        /*player.draw(window);
-        window.display();*/
+        //player.draw(window);
+        //window.display();
         window.setView(player.view_);
         //map.draw(window);
         //window.display();
@@ -72,7 +72,7 @@ void setTextures()
 
     sf::Image heroImage;
     heroImage.loadFromFile(playerImageFile);
-    //heroImage.createMaskFromColor(sf::Color::Black);
+    heroImage.createMaskFromColor(sf::Color::Black);
     textures[player_texture].loadFromImage(heroImage);
 
     sf::Image mapImage;

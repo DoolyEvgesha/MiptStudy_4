@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics/Texture.hpp>
 
-static sf::Texture *textures;
+static sf::Texture *textures = nullptr;
 
 const char playerImageFile[]    = "images/MilesTailsPrower.gif";
 const char mapImageFile[]       = "images/map.png";
@@ -16,10 +16,10 @@ const int y_window_size         = 680;
 
 enum textures
 {
-    player_texture,
-    map_texture,
-    easyenemy_texture,
-    texture_amount
+    player_texture      = 0,
+    map_texture         = 1,
+    easyenemy_texture   = 2,
+    texture_amount      = 3
     //this is needed for an array of texture
     //to know it maximum size
     //later there will be used operator new

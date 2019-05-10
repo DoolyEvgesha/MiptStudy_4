@@ -4,7 +4,7 @@
 #include <SFML/Graphics/View.hpp>
 
 sf::View view;
-
+/*
 sf::View setPlayerCoordForView(float x, float y)
 {
     float tempX = x;
@@ -16,5 +16,5 @@ sf::View setPlayerCoordForView(float x, float y)
 
     view.setCenter(tempX, tempY);
 }
-
+*/
 #endif //MYGAME_VIEW_H
