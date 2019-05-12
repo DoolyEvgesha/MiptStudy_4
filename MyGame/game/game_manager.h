@@ -4,14 +4,17 @@
 #include <SFML/System/Clock.hpp>
 #include "../player/player.h"
 #include <unistd.h>
+#include "../player/Enemy.h"
 
 class GameManager{
 public:
     int interact(const sf::Event &event, sf::RenderWindow &window);
     std::list<Entity*> entities_;
-    explicit GameManager(Player * p, Map * m);
+    explicit GameManager(Player * p, Map * m, int enem_num);
+
 private:
     int             score_;
+    int             enemyNumber_;
     sf::Clock       enemyTimer_;
     sf::Clock       eventTimer_;
     Player *        player_;
@@ -22,8 +25,9 @@ private:
     float           time_;
 
     void            collide(const sf::Event &event, sf::RenderWindow &window);
-
 };
+
+#include <assert.h>
 
 int GameManager::interact(const sf::Event &event, sf::RenderWindow &window)
 {
@@ -34,29 +38,51 @@ int GameManager::interact(const sf::Event &event, sf::RenderWindow &window)
 
     if(!player_->getState())
     {
-        //TODO:write screen with score
-        //the player dies, so
-        //there is a window with it's score
+        std::ostringstream score;
+        score << score_;
+        score_text_.setString("Your score is " + score.str());
+        score_text_.setPosition(player_->getViewCoord() + sf::Vector2f(-200, -100));
+        window.clear(sf::Color::Black);
+        window.draw(score_text_);
+        window.display();
         usleep(15000);
         return 1;
     }
 
+    if(enemyNumber_) {
+        float tlsz = map_->getTileSize();
+        for (int i = 0; i < enemyNumber_; i++) {
+            entities_.push_back(new Enemy(tlsz * (i + 10), tlsz * 2, enemy_w, enemy_h, enemy_s, enemy_animation_s,
+                                          enemy_frame_amount, enemy_collide_area, &textures[easyenemy_texture],
+                                          player_));
+        }
+        enemyNumber_ = 0;
+    }
+
     collide(event, window);
-    //TODO: set writen score
+
+    std::ostringstream health;
+    health << player_->getHealth();
+    health_text_.setString("Health:" + health.str());
+    health_text_.setPosition(sf::Vector2f(player_->getViewCoord().x, player_->getViewCoord().y));
+
+    window.draw(health_text_);
+
     return 0;
 }
 
-GameManager::GameManager(Player * p, Map * m):
-    score_      (0),
-    player_     (p),
-    map_        (m)
+GameManager::GameManager(Player * p, Map * m, int enem_num):
+    score_              (0),
+    enemyNumber_        (enem_num),
+    player_             (p),
+    map_                (m)
 {
-    /*font_.loadFromFile("../images/GLADES_DEMO.ttf");
+    font_.loadFromFile("images/GLADES-DEMO.ttf");
     score_text_.setFont(font_);
     score_text_.setFillColor(sf::Color::Yellow);
 
     health_text_.setFont(font_);
-    health_text_.setFillColor(sf::Color::Red);*/
+    health_text_.setFillColor(sf::Color::Black);
 
     entities_.push_back(map_);
     entities_.push_back(player_);

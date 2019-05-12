@@ -8,11 +8,11 @@
 
 const int JUMP_SPEED = 6;
 
-const int   player_w            = 100;
-const int   player_h            = 100;
+const int   player_w            = 40;
+const int   player_h            = 44;
 const float player_s            = 0.4;
 const float player_animation_s  = 0.04;
-const int   move_frame_amount   = 8;
+const int   move_frame_amount   = 3;
 const float player_collide_area = 1000;
 
 class Player : public Entity{
@@ -22,6 +22,9 @@ public:
 
     int             getHealth      ();
     sf::Vector2f    getViewCoord   ();
+    bool            getOnGround    ();
+    float           getDirX        ();
+    float           getDirY        ();
 
     sf::View        view_;
 
@@ -38,7 +41,7 @@ private:
     float            initialJumpSpeed_;
 };
 
-//TODO: consider directions and maybe speed the character when he is falling by "S"
+
 int Player::getDirection(const sf::Event &event)
 {
     if(!onGround_) {
@@ -64,10 +67,6 @@ int Player::getDirection(const sf::Event &event)
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         return RIGHT_DIR;
 
-   /* if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        return _DIR;*/
-   //TODO: rethink the way to get out if the problem occurs
-   //return -1
    return STAY;
 }
 
@@ -147,9 +146,7 @@ int Player::update(float time, const sf::Event &event)
             break;
 
     }
-    //TODO:write the proper exit
     return 0;
-    //exit(EXIT_FAILURE);
 }
 
 int Player::collide(Entity *entity)
@@ -202,13 +199,18 @@ int Player::collide(Entity *entity)
         case EASY_ENEMY:
             if(collideArea_ + entity->getCollideArea() > distanceModule(getLocation(), entity->getLocation()))
             {
+                if((dir_.y > 0) && (!onGround_))
+                {
+                    dir_.y = - 0.2; //jump up after hitting an enemy
+                }
+                else{
                 dir_.x = 0;
                 dir_.y = 0;
-                //TODO:do adjustments to sprite if he is hit by an enemy
-                //maybe he dies
-                //health--;
-                //if(health_ < 0)
-                   // state_ = false;
+
+                health_--;
+                if(health_ < 0)
+                    state_ = false;
+                }
             }
             break;
 
@@ -228,12 +230,11 @@ Player::Player(float x, float y, int w, int h, float speed, float animation_spee
 
 {}
 
-int             Player::getHealth   ()                         { return height_; }
+int             Player::getHealth   ()                         { return health_; }
 sf::Vector2f    Player::getViewCoord()                         { return viewCoord_; }
-void            Player::draw        (sf::RenderWindow &window)
-{
-    window.draw(sprite_);
-    window.display();
-}
+void            Player::draw        (sf::RenderWindow &window) { window.draw(sprite_);}
+bool            Player::getOnGround ()                         { return onGround_; }
+float           Player::getDirX     ()                         { return dir_.x; }
+float           Player::getDirY     ()                         { return dir_.y; }
 
 #endif //MYGAME_PLAYER_H

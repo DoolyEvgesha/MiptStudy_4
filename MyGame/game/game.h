@@ -10,11 +10,12 @@ const char mapImageFile[]       = "images/map.png";
 const char easyEnemyImageFile[] = "images/shamaich.png";
 
 const int game_speed            = 1000;
+const int enemy_number          = 2;
 
 const int x_window_size         = 640;
 const int y_window_size         = 680;
 
-enum textures
+enum textures_enum
 {
     player_texture      = 0,
     map_texture         = 1,
@@ -29,18 +30,18 @@ enum textures
 //TODO: check directions
 enum directions{
     UP_DIR          = 1,
-    LEFT_DIR        = 2,
-    RIGHT_DIR       = 3,
-    JUMP            = 4,
+    JUMP            = 2,
+    LEFT_DIR        = 3,
+    RIGHT_DIR       = 4,
     LEFT_JUMP       = 6,
     RIGHT_JUMP      = 7,
     STAY            = 8
 };
 
 enum types{
-    EASY_ENEMY  = 1,
-    PLAYER      = 2,
-    MAP         = 3
+    EASY_ENEMY      = 1,
+    PLAYER          = 2,
+    MAP             = 3
 };
 
 int         play            ();

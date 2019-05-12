@@ -28,7 +28,7 @@ int play() {
             player_collide_area, &textures[player_texture]);
 
     player.view_.reset(sf::FloatRect(0, 0, x_window_size, y_window_size));
-    GameManager gamemanager(&player, &map);
+    GameManager gamemanager(&player, &map, enemy_number);
 
     while (window.isOpen())
     {
@@ -41,12 +41,9 @@ int play() {
                 window.close();
         }
 
-        //player.draw(window);
-        //window.display();
         window.setView(player.view_);
         //map.draw(window);
         //window.display();
-        //player.draw(window);
         window.clear(sf::Color::Yellow);
 
         if(gamemanager.interact(event, window) == 1)
@@ -78,11 +75,6 @@ void setTextures()
     sf::Image mapImage;
     mapImage.loadFromFile(mapImageFile);
     textures[map_texture].loadFromImage(mapImage);
-
-    //sf::Texture map;
-    //map.loadFromImage(mapImage);
-    //sf::Sprite s_map;
-    //s_map.setTexture(map);
 
     sf::Image easyEnemyImage;
     easyEnemyImage.loadFromFile(easyEnemyImageFile);

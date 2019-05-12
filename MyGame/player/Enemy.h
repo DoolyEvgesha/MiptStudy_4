@@ -6,10 +6,24 @@
 #include "../map/map.h"
 #include "../player/player.h"
 
+
+const int   enemy_w            = 100;
+const int   enemy_h            = 100;
+const float enemy_s            = 0.4;
+const float enemy_animation_s  = 0.04;
+const int   enemy_frame_amount = 8;
+const float enemy_collide_area = 1000;
+
+enum
+{
+    ENEMY_LEFT      = 1,
+    ENEMY_RIGHT     = 2
+};
+
 class Enemy: public Entity{
 private:
     Player * player_;
-    //maybe health
+    int      health_;
 public:
     Enemy(float x, float y, int w, int h, float speed, float animation_speed, int move_frame_amount,
           float collideArea, const sf::Texture *move_animation_texture, Player *player);
@@ -25,31 +39,27 @@ int Enemy::update(float time, const sf::Event &event)
 {
     changeFrame(time);
 
-    dir_.x = 0;
-    dir_.y = 0;
+    //dir_.x = 0;
+    //dir_.y = 0;
 
-    sf::Vector2f player_coords(player_->getX(), player_->getY());
-    if(player_coords.x < bodyCoord_.x)
+    //here we write, where enemy runs
+    //in my case a repeating cycle
+
+    if(dir_.x < 0)
     {
-        dir_.x = -speed_ * time;
-        if(player_coords.y < bodyCoord_.y)
-        {
-            //TODO:rethink this case
-            //dir_.y = -speed_ * time / 1.4;
-            //direction_ =
-        }
+        direction_ = ENEMY_LEFT;
+        changeFramePosition(ENEMY_LEFT);
     }
-    else if(player_coords.x > bodyCoord_.x)
+    else if(dir_.x > 0)
     {
-        //....
+        direction_ = ENEMY_RIGHT;
+        changeFramePosition(ENEMY_RIGHT);
+    }
+    else {
+        dir_.x = speed_ * time;
+        std::cout << dir_.x << std::endl;
     }
 
-    if(fabsf(player_coords.x - physEntity::bodyCoord_.x) < 5 * fabsf(dir_.x))
-    {
-        changeFramePosition(UP_DIR);
-    }
-    else
-        changeFramePosition(physEntity::direction_);
     return 0;
 }
 
@@ -60,8 +70,7 @@ int Enemy::collide(Entity *entity)
         case EASY_ENEMY:
             if(collideArea_ + entity->getCollideArea() > distanceModule(getLocation(), entity->getLocation()))
             {
-                dir_.x = -1.5 * dir_.x;
-                dir_.y = -1.5 * dir_.y;
+                dir_.x = - dir_.x/* *1,5 */;
             }
 
             break;
@@ -69,12 +78,38 @@ int Enemy::collide(Entity *entity)
         case PLAYER:
             if(collideArea_ + entity->getCollideArea() > distanceModule(getLocation(), entity->getLocation()))
             {
-                dir_.x = -1.5 * dir_.x;
-                dir_.y = -1.5 * dir_.y;
-
-                move();
+                if((player_->getDirY() > 0) && (!player_->getOnGround()))
+                //if player is jumping onto enemy - kill enemy
+                {
+                    dir_.x  = 0;
+                    health_ = 0;
+                    state_  = false;
+                }
             }
             break;
+
+        case MAP: {
+            auto map = dynamic_cast<Map *> (entity);
+            //int map_width = map->getWidth();
+            //int map_height = map->getHeight();
+
+            float next_position_x = bodyCoord_.x + dir_.x;
+            int i = next_position_x / map->getTileSize();
+            int j = bodyCoord_.y / map->getTileSize();
+
+            if (TileMap[j][i] == '0') {
+                dir_.x = - dir_.x;
+                std::cout << dir_.x << " " <<  bodyCoord_.x << std::endl;
+                //TODO: CHECK IF MOVE IS RIGHT!!!!!!!!!!!!!!!!!
+                std::cout << "========================="<< std::endl;
+                move();
+                std::cout << dir_.x << " " <<  bodyCoord_.x << std::endl;
+                ////////////////////
+                std::cout << "========================="<< std::endl;
+            }
+            break;
+        }
+
         default:
             break;
     }
@@ -84,7 +119,9 @@ int Enemy::collide(Entity *entity)
 Enemy::Enemy(float x, float y, int w, int h, float speed, float animation_speed, int move_frame_amount,
              float collideArea, const sf::Texture *move_animation_texture, Player *player) :
        Entity(x, y, w, h, speed, animation_speed, move_animation_texture, move_frame_amount,
-               EASY_ENEMY, collideArea)
+               EASY_ENEMY, collideArea),
+               player_      (player),
+               health_      (100)
 {}
 
 int Enemy::move()
