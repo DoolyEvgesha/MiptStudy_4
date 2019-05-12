@@ -12,8 +12,8 @@ const char easyEnemyImageFile[] = "images/shamaich.png";
 const int game_speed            = 1000;
 const int enemy_number          = 2;
 
-const int x_window_size         = 640;
-const int y_window_size         = 680;
+const int x_window_size         = 840;
+const int y_window_size         = 780;
 
 enum textures_enum
 {

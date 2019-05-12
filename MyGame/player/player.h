@@ -2,7 +2,6 @@
 #define MYGAME_PLAYER_H
 
 #include "../map/map.h"
-#include "../view/view.h"
 #include "../entity.h"
 #include "../game/game.h"
 
@@ -180,17 +179,17 @@ int Player::collide(Entity *entity)
             sf::Vector2f a;
             a = bodyCoord_;
 
-            if (bodyCoord_.x    < view.getSize().x / 2)
-                a.x             = view.getSize().x / 2;
+            if (bodyCoord_.x    < view_.getSize().x / 2)
+                a.x             = view_.getSize().x / 2;
 
-            if (bodyCoord_.x    > map->getWidth() * TILE_SIZE - view.getSize().x / 2)
-                a.x             = map->getWidth() * TILE_SIZE - view.getSize().x / 2;
+            if (bodyCoord_.x    > map->getWidth() * TILE_SIZE - view_.getSize().x / 2)
+                a.x             = map->getWidth() * TILE_SIZE - view_.getSize().x / 2;
 
-            if (bodyCoord_.y    < view.getSize().y / 2)
-                a.y             = view.getSize().y / 2;
+            if (bodyCoord_.y    < view_.getSize().y / 2)
+                a.y             = view_.getSize().y / 2;
 
-            if (bodyCoord_.y    > map->getHeight() * TILE_SIZE - view.getSize().y / 2)
-                a.y             = map->getHeight() * TILE_SIZE - view.getSize().y / 2;
+            if (bodyCoord_.y    > map->getHeight() * TILE_SIZE - view_.getSize().y / 2)
+                a.y             = map->getHeight() * TILE_SIZE - view_.getSize().y / 2;
 
             viewCoord_ = a;
 

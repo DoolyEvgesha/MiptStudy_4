@@ -52,7 +52,7 @@ int GameManager::interact(const sf::Event &event, sf::RenderWindow &window)
     if(enemyNumber_) {
         float tlsz = map_->getTileSize();
         for (int i = 0; i < enemyNumber_; i++) {
-            entities_.push_back(new Enemy(tlsz * (i + 10), tlsz * 2, enemy_w, enemy_h, enemy_s, enemy_animation_s,
+            entities_.push_back(new Enemy(tlsz * (i + 100), tlsz * 2, enemy_w, enemy_h, enemy_s, enemy_animation_s,
                                           enemy_frame_amount, enemy_collide_area, &textures[easyenemy_texture],
                                           player_));
         }

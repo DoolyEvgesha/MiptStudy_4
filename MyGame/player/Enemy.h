@@ -40,7 +40,7 @@ int Enemy::update(float time, const sf::Event &event)
     changeFrame(time);
 
     //dir_.x = 0;
-    //dir_.y = 0;
+    dir_.y = 0;
 
     //here we write, where enemy runs
     //in my case a repeating cycle
