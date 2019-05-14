@@ -1,6 +1,7 @@
 #ifndef MYGAME_PLAYER_H
 #define MYGAME_PLAYER_H
 
+#include <algorithm>
 #include "../map/map.h"
 #include "../entity.h"
 #include "../game/game.h"
@@ -106,7 +107,7 @@ int Player::update(float time, const sf::Event &event)
                 initialJumpSpeed_ += 0.1;
             }
             else{
-                onGround_ = true;
+                dir_.y = initialJumpSpeed_;
             }
 
             direction_  = JUMP;
@@ -119,7 +120,7 @@ int Player::update(float time, const sf::Event &event)
                 initialJumpSpeed_ += 0.1;
             }
             else{
-                onGround_ = true;
+                dir_.y = initialJumpSpeed_;
             }
 
             dir_.x      = speed_ * time;
@@ -133,7 +134,7 @@ int Player::update(float time, const sf::Event &event)
                 initialJumpSpeed_ += 0.1;
             }
             else{
-                onGround_ = true;
+                dir_.y = initialJumpSpeed_;
             }
 
             dir_.x      = -speed_ * time;
@@ -156,6 +157,103 @@ int Player::collide(Entity *entity)
             //TODO:write interaction with map(lives, stones, etc)
             auto map = dynamic_cast<Map *> (entity);
 
+            //float next_step_y = (dir_.y < 0) ? (bodyCoord_.y + dir_.y - height_/2) : (bodyCoord_.y + dir_.y + height_/2);
+            //float next_step_x = (dir_.x < 0) ? (bodyCoord_.x + dir_.x - width_/2)  : (bodyCoord_.x + dir_.x + width_ /2);
+
+            float next_step_x, next_step_y;
+            if(dir_.x < 0)
+                next_step_x = bodyCoord_.x + dir_.x - width_/2;
+            else if (dir_.x > 0)
+                next_step_x = bodyCoord_.x + dir_.x + width_ /2;
+            else if(dir_.x == 0)
+                next_step_x = bodyCoord_.x;
+
+            if(dir_.y < 0)
+                next_step_y = bodyCoord_.y + dir_.y - height_/2;
+            else if(dir_.y > 0)
+                next_step_y = bodyCoord_.y + dir_.y + height_/2;
+            else if(dir_.y == 0 && TileMap[int((bodyCoord_.y + height_/2)/TILE_SIZE)][int(next_step_x / TILE_SIZE)] != '0')
+            {
+                dir_.y = speed_ * 2;
+                next_step_y = bodyCoord_.y + dir_.y + height_/2; //gravitation (falling after stepping from a cliff)
+            }
+            else
+                next_step_y = bodyCoord_.y;
+
+            int j = (next_step_y / TILE_SIZE);
+            int i = (next_step_x / TILE_SIZE);
+
+            if((dir_.y == 0) && (TileMap[j][i] != '0'))
+                dir_.y = 0.1;
+
+            if(TileMap[j][i] == '0')
+            {
+                if(dir_.y > 0)
+                {
+                    /*bodyCoord_.y        = (j - 0.1) * TILE_SIZE;
+                    sprite_coord_.y     = (j - 0.1) * TILE_SIZE - Player::height_;*/
+                    dir_.y              = TILE_SIZE * j - bodyCoord_.y - height_ / 2;
+                    dir_.y              = 0;
+                    onGround_           = true;
+                    move();
+                }
+                else if(dir_.y < 0 && dir_.x == 0)
+                {
+                    dir_.y              = TILE_SIZE * (j + 1) - bodyCoord_.y + height_ / 2;
+                    move();
+                    /*bodyCoord_.y        = j * TILE_SIZE + TILE_SIZE;
+                    dir_.y              = - dir_.y;*/
+                }
+                else if(dir_.y < 0 && dir_.x > 0)
+                {
+                    dir_.y              = TILE_SIZE * (j + 1) - bodyCoord_.y + height_ / 2;
+                    dir_.x              = TILE_SIZE * i - bodyCoord_.x - width_ / 2;
+                    move();
+                }
+                else if(dir_.y == 0 && dir_.x < 0)
+                {
+                    dir_.x              = TILE_SIZE * (i + 1) - bodyCoord_.x + width_ / 2;
+                    move();
+                    //bodyCoord_.x        = (i + 1) * TILE_SIZE;
+                    //sprite_coord_.x     = (i + 1) * TILE_SIZE + Player::width_ / 2;
+                }
+                else if(dir_.y == 0 && dir_.x > 0)
+                {
+                    dir_.x              = TILE_SIZE * i - bodyCoord_.x - width_ / 2;
+                    move();
+                }
+            }
+            /*for(int i = (bodyCoord_.x - width_)/ TILE_SIZE; i < (bodyCoord_.x + width_) / TILE_SIZE; i++)
+                for(int j = (bodyCoord_.y - height_)/ TILE_SIZE; j < (bodyCoord_.y + height_) / TILE_SIZE; j++)
+                    if(TileMap[j][i] == '0')
+                    {
+                        if(dir_.y > 0)
+                        {
+                            bodyCoord_.y        = j * TILE_SIZE;
+                            sprite_coord_.y     = j * TILE_SIZE - Player::height_;
+                            dir_.y              = 0;
+                            onGround_           = true;
+                        }
+                        if(dir_.y < 0)
+                        {
+                            bodyCoord_.y        = j * TILE_SIZE + TILE_SIZE;
+                            dir_.y              = - dir_.y;
+                        }
+                        if(dir_.x < 0)
+                        {
+                            bodyCoord_.x        = i * TILE_SIZE;
+                            sprite_coord_.x     = i * TILE_SIZE + Player::width_ / 2;
+                            std::cout << "i = " << i << " j = " << j << std::endl;
+                            std::cout << "x = " << bodyCoord_.x << " y = " << bodyCoord_.y << std::endl;
+                            std::cout << "dx = " << dir_.x << " dy = " << dir_.y << std::endl;
+                        }
+                        if(dir_.x > 0)
+                        {
+                            bodyCoord_.x        = i * TILE_SIZE;
+                            sprite_coord_.x     = i * TILE_SIZE - Player::width_ / 2;
+                        }
+                    }*/
+            /*
             if (bodyCoord_.x    < map->getTileSize()) {
                 bodyCoord_.x    = map->getTileSize();
                 sprite_coord_.x = map->getTileSize() - visualEntity::width_ / 2;
@@ -174,7 +272,7 @@ int Player::collide(Entity *entity)
             if (bodyCoord_.y    > map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize()) {
                 bodyCoord_.y    = map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize();
                 sprite_coord_.y = map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize() - Player::height_ / 2;
-            }
+            }*/
 
             sf::Vector2f a;
             a = bodyCoord_;

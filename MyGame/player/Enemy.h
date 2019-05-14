@@ -33,6 +33,7 @@ public:
     int         update      (float time, const sf::Event & event) override;
     int         collide     (Entity * entity) override;
     int         getDirection(const sf::Event &event) override { return 0; }
+    float       getDirX(){return 0;}
 };
 
 int Enemy::update(float time, const sf::Event &event)

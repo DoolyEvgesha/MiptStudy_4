@@ -24,7 +24,7 @@ int play() {
 
     Map map(TileMap, HEIGHT_MAP, WIDTH_MAP, TILE_SIZE, &textures[map_texture]);
 
-    Player player(1000, 500, player_w, player_h, player_s, player_animation_s, move_frame_amount,
+    Player player(1824, 650, player_w, player_h, player_s, player_animation_s, move_frame_amount,
             player_collide_area, &textures[player_texture]);
 
     player.view_.reset(sf::FloatRect(0, 0, x_window_size, y_window_size));

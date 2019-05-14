@@ -49,7 +49,7 @@ int GameManager::interact(const sf::Event &event, sf::RenderWindow &window)
         return 1;
     }
 
-    if(enemyNumber_) {
+    /*if(enemyNumber_) {
         float tlsz = map_->getTileSize();
         for (int i = 0; i < enemyNumber_; i++) {
             entities_.push_back(new Enemy(tlsz * (i + 100), tlsz * 2, enemy_w, enemy_h, enemy_s, enemy_animation_s,
@@ -58,7 +58,7 @@ int GameManager::interact(const sf::Event &event, sf::RenderWindow &window)
         }
         enemyNumber_ = 0;
     }
-
+*/
     collide(event, window);
 
     std::ostringstream health;
@@ -109,7 +109,8 @@ void GameManager::collide(const sf::Event &event, sf::RenderWindow &window)
         else
         {
             cur_entity->update(time_, event);
-            for(jt = it; jt != entities_.end(); jt++)
+            //for(jt = it; jt != entities_.end(); jt++)
+            for(jt = entities_.begin(); jt != entities_.end(); jt++)
             {
                 if(!(cur_entity->getState()))
                     break;

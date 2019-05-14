@@ -31,7 +31,7 @@ static sf::String TileMap[HEIGHT_MAP] = { //?????????? how to replace the loot?
         "0              ss   0000                                   0",
         "0           000000000000                                   0",
         "0   f    h  000000000000 h                                 0",
-        "0          000000000000000                                 0",
+        "0          000000000000000    0                            0",
         "000000000000000000000000000000000000000000000000000000000000",
         "000000000000000000000000000000000000000000000000000000000000"
 };
@@ -49,6 +49,7 @@ public:
     int     getWidth()      { return width_;    };
     int     getHeight()     { return height_;   };
     int     getTileSize()   { return tileSize_; };
+    float   getDirX()       { return 0;}
 private:
     const sf::String *  tiledMap_;
     int                 tileSize_;
