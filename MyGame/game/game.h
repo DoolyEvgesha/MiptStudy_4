@@ -5,8 +5,8 @@
 
 static sf::Texture *textures = nullptr;
 
-const char playerImageFile[]    = "images/MilesTailsPrower.gif";
-const char mapImageFile[]       = "images/map.png";
+const char playerImageFile[]    = "images/tailsPrower.png";
+const char mapImageFile[]       = "images/my_map.png";
 const char easyEnemyImageFile[] = "images/shamaich.png";
 
 const int game_speed            = 1000;
@@ -29,13 +29,13 @@ enum textures_enum
 
 //TODO: check directions
 enum directions{
-    UP_DIR          = 1,
-    JUMP            = 2,
+    STAY            = 1,
+    RIGHT_DIR       = 2,
     LEFT_DIR        = 3,
-    RIGHT_DIR       = 4,
-    LEFT_JUMP       = 6,
-    RIGHT_JUMP      = 7,
-    STAY            = 8
+    JUMP            = 4,
+    LEFT_JUMP       = 5,
+    RIGHT_JUMP      = 6
+
 };
 
 enum types{

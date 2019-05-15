@@ -8,11 +8,13 @@
 
 const int JUMP_SPEED = 6;
 
-const int   player_w            = 40;
-const int   player_h            = 44;
+//const int   player_w            = 40;
+//const int   player_h            = 44;
+const int   player_w            = 50;
+const int   player_h            = 50;
 const float player_s            = 0.4;
 const float player_animation_s  = 0.04;
-const int   move_frame_amount   = 3;
+const int   move_frame_amount   = 8;
 const float player_collide_area = 1000;
 
 class Player : public Entity{

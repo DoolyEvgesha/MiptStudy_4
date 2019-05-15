@@ -7,8 +7,8 @@
 #include "../player/player.h"
 
 
-const int   enemy_w            = 100;
-const int   enemy_h            = 100;
+const int   enemy_w            = 100;///Daha Opar
+const int   enemy_h            = 100;//meow
 const float enemy_s            = 0.4;
 const float enemy_animation_s  = 0.04;
 const int   enemy_frame_amount = 8;
