@@ -15,7 +15,7 @@ const int   player_h            = 50;
 const float player_s            = 0.4;
 const float player_animation_s  = 0.04;
 const int   move_frame_amount   = 8;
-const float player_collide_area = 1000;
+const float player_collide_area = 100;
 
 class Player : public Entity{
 public:
@@ -156,7 +156,6 @@ int Player::collide(Entity *entity)
     switch(entity->getType()) {
         case MAP:
         {
-            //TODO:write interaction with map(lives, stones, etc)
             auto map = dynamic_cast<Map *> (entity);
 
             //float next_step_y = (dir_.y < 0) ? (bodyCoord_.y + dir_.y - height_/2) : (bodyCoord_.y + dir_.y + height_/2);
@@ -184,6 +183,21 @@ int Player::collide(Entity *entity)
 
             int j = (next_step_y / TILE_SIZE);
             int i = (next_step_x / TILE_SIZE);
+
+            //if it steps on spikes, it dies
+            if(TileMap[j][i] == 's' || TileMap[int(bodyCoord_.y / TILE_SIZE)][i] == 's')
+            {
+                health_ = 0;
+                state_  = false;
+            }
+
+            //if the player eats a drug(mushroom)
+            if(TileMap[j][i] == 'm' || TileMap[int(bodyCoord_.y / TILE_SIZE)][i] == 'm')
+            {
+                if(dir_.y > 0 && onGround_ == false)
+                    view_.rotate(0.1);
+                dir_.y = 0;
+            }
 
             if((dir_.y == 0) && (TileMap[j][i] != '0'))
                 dir_.y = 0.1;
@@ -225,56 +239,6 @@ int Player::collide(Entity *entity)
                     move();
                 }
             }
-            /*for(int i = (bodyCoord_.x - width_)/ TILE_SIZE; i < (bodyCoord_.x + width_) / TILE_SIZE; i++)
-                for(int j = (bodyCoord_.y - height_)/ TILE_SIZE; j < (bodyCoord_.y + height_) / TILE_SIZE; j++)
-                    if(TileMap[j][i] == '0')
-                    {
-                        if(dir_.y > 0)
-                        {
-                            bodyCoord_.y        = j * TILE_SIZE;
-                            sprite_coord_.y     = j * TILE_SIZE - Player::height_;
-                            dir_.y              = 0;
-                            onGround_           = true;
-                        }
-                        if(dir_.y < 0)
-                        {
-                            bodyCoord_.y        = j * TILE_SIZE + TILE_SIZE;
-                            dir_.y              = - dir_.y;
-                        }
-                        if(dir_.x < 0)
-                        {
-                            bodyCoord_.x        = i * TILE_SIZE;
-                            sprite_coord_.x     = i * TILE_SIZE + Player::width_ / 2;
-                            std::cout << "i = " << i << " j = " << j << std::endl;
-                            std::cout << "x = " << bodyCoord_.x << " y = " << bodyCoord_.y << std::endl;
-                            std::cout << "dx = " << dir_.x << " dy = " << dir_.y << std::endl;
-                        }
-                        if(dir_.x > 0)
-                        {
-                            bodyCoord_.x        = i * TILE_SIZE;
-                            sprite_coord_.x     = i * TILE_SIZE - Player::width_ / 2;
-                        }
-                    }*/
-            /*
-            if (bodyCoord_.x    < map->getTileSize()) {
-                bodyCoord_.x    = map->getTileSize();
-                sprite_coord_.x = map->getTileSize() - visualEntity::width_ / 2;
-            }
-
-            if (bodyCoord_.y    < 0.7 * map->getTileSize()) {
-                bodyCoord_.y    = 0.7 * map->getTileSize();
-                sprite_coord_.y = 0.7 * map->getTileSize() - Player::height_ / 2;
-            }
-
-            if (bodyCoord_.x    > map->getTileSize() * map->getWidth() - map->getTileSize()) {
-                bodyCoord_.x    = map->getTileSize() * map->getWidth() - map->getTileSize();
-                sprite_coord_.x = map->getTileSize() * map->getWidth() - map->getTileSize() - Player::width_ / 2;
-            }
-
-            if (bodyCoord_.y    > map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize()) {
-                bodyCoord_.y    = map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize();
-                sprite_coord_.y = map->getHeight() * map->getTileSize() - 1.7 * map->getTileSize() - Player::height_ / 2;
-            }*/
 
             sf::Vector2f a;
             a = bodyCoord_;

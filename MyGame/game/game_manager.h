@@ -2,6 +2,9 @@
 #define MYGAME_GAME_MANAGER_H
 
 #include <SFML/System/Clock.hpp>
+#include <SFML/Audio/Music.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Sound.hpp>
 #include "../player/player.h"
 #include <unistd.h>
 #include "../player/Enemy.h"
@@ -31,10 +34,15 @@ private:
 
 int GameManager::interact(const sf::Event &event, sf::RenderWindow &window)
 {
-    time_ = eventTimer_.getElapsedTime().asMicroseconds();
-    score_ += time_ / 1000;
+    time_       = eventTimer_.getElapsedTime().asMicroseconds();
+    score_      += time_ / 1000;
     eventTimer_.restart();
-    time_ /= game_speed;
+    time_       /= game_speed;
+
+   /*static sf::Music back_music;
+    back_music.openFromFile(backMusicFile);
+    back_music.play();*/
+    //back_music.setLoop(true);
 
     if(!player_->getState())
     {
