@@ -21,7 +21,7 @@ int play() {
     setTextures();
 
     sf::RenderWindow window(sf::VideoMode(x_window_size, y_window_size), "My Game UwU");
-    menu(window);
+    //menu(window);
 
     Map map(TileMap, HEIGHT_MAP, WIDTH_MAP, TILE_SIZE, &textures[map_texture]);
 

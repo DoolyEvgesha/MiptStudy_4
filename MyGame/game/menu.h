@@ -9,9 +9,9 @@
 
 void menu(sf::RenderWindow & window) {
     sf::Texture menuTexturePlay, menuTextureExit, menuBackground;
-    menuTexturePlay.loadFromFile("images/111.png");
-    menuTextureExit.loadFromFile("images/333.png");
-    menuBackground.loadFromFile("images/menu_background.png");
+    menuTexturePlay.loadFromFile("images/play.png");
+    menuTextureExit.loadFromFile("images/exit.png");
+    menuBackground. loadFromFile("images/menu_background.png");
     sf::Sprite menuPlay(menuTexturePlay), menuExit(menuTextureExit), menuBg(menuBackground);
 
     bool isMenu = true;
@@ -19,7 +19,7 @@ void menu(sf::RenderWindow & window) {
 
     menuPlay.setPosition(100, 30);
     menuExit.setPosition(100, 150);
-    menuBg.setPosition(0, 0);
+    menuBg.  setPosition(0,   0);
 
     while (isMenu && window.isOpen())
     {
@@ -37,18 +37,19 @@ void menu(sf::RenderWindow & window) {
 
         if (sf::IntRect(100, 30, 300, 50).contains(sf::Mouse::getPosition(window)))
         {
-            menuPlay.setColor(sf::Color(1, 1, 1, 1));
+            menuPlay.setColor(sf::Color::Magenta);
             menuNum = 1;
         }
         if (sf::IntRect(100, 150, 300, 50).contains(sf::Mouse::getPosition(window)))
         {
-            menuExit.setColor(sf::Color::Blue);
-            menuNum = 3; }
+            menuExit.setColor(sf::Color::Magenta);
+            menuNum = 2;
+        }
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             if (menuNum == 1) isMenu = false;
-            if (menuNum == 3)
+            if (menuNum == 2)
             {
                 window.close();
                 isMenu = false;

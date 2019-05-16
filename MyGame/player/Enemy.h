@@ -7,12 +7,12 @@
 #include "../player/player.h"
 
 
-const int   enemy_w            = 100;///Daha Opar
-const int   enemy_h            = 100;//meow
-const float enemy_s            = 0.4;
+const int   enemy_w            = 32;//Daha Opar
+const int   enemy_h            = 48;//meow
+const float enemy_s            = 0.09;
 const float enemy_animation_s  = 0.04;
-const int   enemy_frame_amount = 8;
-const float enemy_collide_area = 1000;
+const int   enemy_frame_amount = 4;
+const float enemy_collide_area = 25;
 
 enum
 {
@@ -32,8 +32,8 @@ public:
     void        draw        (sf::RenderWindow &window) override { window.draw(sprite_); }
     int         update      (float time, const sf::Event & event) override;
     int         collide     (Entity * entity) override;
-    int         getDirection(const sf::Event &event) override { return 0; }
-    float       getDirX(){return 0;}
+    int         getDirection(const sf::Event &event) override   { return 0; }
+    float       getDirX     ()                                  { return 0; }
 };
 
 int Enemy::update(float time, const sf::Event &event)

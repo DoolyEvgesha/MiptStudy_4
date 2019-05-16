@@ -7,11 +7,11 @@ static sf::Texture *textures = nullptr;
 
 const char playerImageFile[]    = "images/tailsPrower.png";
 const char mapImageFile[]       = "images/my_map.png";
-const char easyEnemyImageFile[] = "images/MilesTailsPrower.gif";
+const char easyEnemyImageFile[] = "images/enemy.png";
 const char backMusicFile[]      = "music/eva_opening.ogg";
 
 const int game_speed            = 1000;
-const int enemy_number          = 2;
+const int enemy_number          = 1;
 
 const int x_window_size         = 840;
 const int y_window_size         = 780;

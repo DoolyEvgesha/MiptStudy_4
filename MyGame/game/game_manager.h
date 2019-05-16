@@ -38,12 +38,12 @@ int GameManager::interact(const sf::Event &event, sf::RenderWindow &window)
     score_      += time_ / 1000;
     eventTimer_.restart();
     time_       /= game_speed;
-
-   /*static sf::Music back_music;
+/*
+    static sf::Music back_music;
     back_music.openFromFile(backMusicFile);
-    back_music.play();*/
+    back_music.play();
     //back_music.setLoop(true);
-
+*/
     if(!player_->getState())
     {
         std::ostringstream score;
@@ -57,22 +57,21 @@ int GameManager::interact(const sf::Event &event, sf::RenderWindow &window)
         return 1;
     }
 
-    /*if(enemyNumber_) {
-        float tlsz = map_->getTileSize();
+    if(enemyNumber_) {
         for (int i = 0; i < enemyNumber_; i++) {
-            entities_.push_back(new Enemy(tlsz * (i + 100), tlsz * 2, enemy_w, enemy_h, enemy_s, enemy_animation_s,
-                                          enemy_frame_amount, enemy_collide_area, &textures[easyenemy_texture],
-                                          player_));
+            entities_.push_back(new Enemy(TILE_SIZE * 26, TILE_SIZE * 20 + 15,
+                    enemy_w, enemy_h, enemy_s, enemy_animation_s,enemy_frame_amount, enemy_collide_area,
+                    &textures[easyenemy_texture], player_));
         }
         enemyNumber_ = 0;
     }
-*/
+
     collide(event, window);
 
     std::ostringstream health;
     health << player_->getHealth();
     health_text_.setString("Health:" + health.str());
-    health_text_.setPosition(sf::Vector2f(player_->getViewCoord().x, player_->getViewCoord().y));
+    health_text_.setPosition(sf::Vector2f(player_->getViewCoord().x, player_->getViewCoord().y - 300));
 
     window.draw(health_text_);
 
