@@ -132,7 +132,7 @@ void menuScreamer(sf::RenderWindow & window)
     bool exit;
 
     menuExit.setPosition(100, 550);
-    //menuBg.  setPosition(0, 0);
+    menuBg.  setPosition(0, 0);
     //menuBg.  setPosition(755, 20);
 
     static sf::Music go;
