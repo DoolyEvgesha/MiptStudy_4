@@ -38,12 +38,7 @@ int GameManager::interact(const sf::Event &event, sf::RenderWindow &window)
     score_      += time_ / 1000;
     eventTimer_.restart();
     time_       /= game_speed;
-/*
-    static sf::Music back_music;
-    back_music.openFromFile(backMusicFile);
-    back_music.play();
-    //back_music.setLoop(true);
-*/
+
     if(!player_->getState())
     {
         std::ostringstream score;
@@ -104,11 +99,12 @@ void GameManager::collide(const sf::Event &event, sf::RenderWindow &window)
     //check the state of an object
     //delete if it is dead
     //and erase in that case
-    for(auto it = entities_.begin(); it != entities_.end(); it++)
+    int i = 0;
+    for(auto it = entities_.begin(); i < 3, it != entities_.end(); i++, it++)
     {
         cur_entity = *it;
 
-        if(!(cur_entity->getState()))
+        if(!(cur_entity->getState()) && i != 1)
         {
             delete cur_entity;
             it = entities_.erase(it);

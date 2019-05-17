@@ -21,15 +21,19 @@ int play() {
     setTextures();
 
     sf::RenderWindow window(sf::VideoMode(x_window_size, y_window_size), "My Game UwU");
-    //menu(window);
+    menuOpen(window);
 
     Map map(TileMap, HEIGHT_MAP, WIDTH_MAP, TILE_SIZE, &textures[map_texture]);
 
-    Player player(1415, 650, player_w, player_h, player_s, player_animation_s, move_frame_amount,
+    Player player(TILE_SIZE * 2, 650, player_w, player_h, player_s, player_animation_s, move_frame_amount,
             player_collide_area, &textures[player_texture]);
 
     player.view_.reset(sf::FloatRect(0, 0, x_window_size, y_window_size));
     GameManager gamemanager(&player, &map, enemy_number);
+
+    static sf::Music back_music;
+    back_music.openFromFile("music/eva_opening.ogg");
+    back_music.play();
 
     while (window.isOpen())
     {
@@ -49,13 +53,22 @@ int play() {
 
         if(gamemanager.interact(event, window) == 1)
         {
-            window.close();
+            //window.close();
+            break;
         }
 
         window.display();
     }
 
+    back_music.stop();
+
+    if(player.isOnDrug_())
+        menuScreamer(window);
+    else
+        menuGameOver(window);
+
     delete[] textures;
+
     return 0;
 }
 

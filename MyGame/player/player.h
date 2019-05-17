@@ -6,13 +6,11 @@
 #include "../entity.h"
 #include "../game/game.h"
 
-const int JUMP_SPEED = 6;
+const int   JUMP_SPEED          = 7;
 
-//const int   player_w            = 40;
-//const int   player_h            = 44;
 const int   player_w            = 50;
 const int   player_h            = 50;
-const float player_s            = 0.4;
+const float player_s            = 0.2;
 const float player_animation_s  = 0.04;
 const int   move_frame_amount   = 8;
 const float player_collide_area = 25;
@@ -27,6 +25,7 @@ public:
     bool            getOnGround    ();
     float           getDirX        ();
     float           getDirY        ();
+    bool            isOnDrug_      ()               { return onDrug_; };
 
     sf::View        view_;
 
@@ -41,6 +40,7 @@ private:
     sf::Vector2f     viewCoord_;
     bool             onGround_;
     float            initialJumpSpeed_;
+    bool             onDrug_;
 };
 
 
@@ -175,7 +175,7 @@ int Player::collide(Entity *entity)
                 next_step_y = bodyCoord_.y + dir_.y + height_/2;
             else if(dir_.y == 0 && TileMap[int((bodyCoord_.y + height_/2)/TILE_SIZE)][int(next_step_x / TILE_SIZE)] != '0')
             {
-                dir_.y = speed_ * 2;
+                dir_.y = speed_ * 8;
                 next_step_y = bodyCoord_.y + dir_.y + height_/2; //gravitation (falling after stepping from a cliff)
             }
             else
@@ -192,12 +192,28 @@ int Player::collide(Entity *entity)
             }
 
             //if the player eats a drug(mushroom)
-            if(TileMap[j][i] == 'm' || TileMap[int(bodyCoord_.y / TILE_SIZE)][i] == 'm')
+            if(TileMap[j][i] == 'b' || TileMap[int(bodyCoord_.y / TILE_SIZE)][i] == 'b')
             {
                 if(dir_.y > 0 && onGround_ == false)
                     view_.rotate(0.1);
                 dir_.y = 0;
             }
+
+            if(TileMap[j][i] == 'g' || TileMap[int(bodyCoord_.y / TILE_SIZE)][i] == 'g')
+            {
+                if(dir_.y > 0 && onGround_ == false)
+                    view_.rotate(-0.1);
+                dir_.y = 0;
+            }
+
+            if(TileMap[j][i] == 'm' || TileMap[int(bodyCoord_.y / TILE_SIZE)][i] == 'm')
+            {
+                onDrug_ = true;
+                health_ = 0;
+                state_  = false;
+                dir_.y  = 0;
+            }
+
 
             if((dir_.y == 0) && (TileMap[j][i] != '0'))
                 dir_.y = 0.1;
@@ -289,7 +305,8 @@ Player::Player(float x, float y, int w, int h, float speed, float animation_spee
     Entity       (x, y, w, h, speed, animation_speed, move_animation_texture, move_frame_amount, PLAYER, collideArea),
     health_      (100),
     viewCoord_   (physEntity::bodyCoord_),
-    onGround_    (true)
+    onGround_    (true),
+    onDrug_      (false)
 
 {}
 

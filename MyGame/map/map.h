@@ -28,10 +28,10 @@ static sf::String TileMap[HEIGHT_MAP] = { //?????????? how to replace the loot?
         "0                 cd           cd                          0",
         "0 cd                                                       0",
         "0                   frf                                    0",
-        "0             f     0000                                   0",
+        "0             f  m  0000                                   0",
         "0           000000000000                                   0",
         "0           000000000000 h    f rf                         0",
-        "0     f    000000000000000    0000          f   m          0",
+        "0     f s  000000000000000    0000 m   s    f  b  g   s    0",
         "000000000000000000000000000000000000000000000000000000000000",
         "000000000000000000000000000000000000000000000000000000000000"
 };
@@ -89,8 +89,14 @@ void Map::draw(sf::RenderWindow &window)
                 case 'd': //cloud
                     sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 6, 0, TILE_SIZE, TILE_SIZE));
                     break;
-                case 'm': //mashroom
+                case 'b': //red(right button)
                     sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 7, 0, TILE_SIZE, TILE_SIZE));
+                    break;
+                case 'g': //green(right button)
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 8, 0, TILE_SIZE, TILE_SIZE));
+                    break;
+                case 'm': //mushroom
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 9, 0, TILE_SIZE, TILE_SIZE));
                     break;
                 case '0': //boundaries
                     sprite_.setTextureRect(sf::IntRect(TILE_SIZE, 0, TILE_SIZE, TILE_SIZE));

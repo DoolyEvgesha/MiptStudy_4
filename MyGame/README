@@ -1,0 +1,7 @@
+Write a basic 2D game with enemies, interaction with map
+The main hero is jumping, moving left-right
+Possibly, there can be a music playing in the background
+There must be an inheritance and also so-called engine
+
+
+Found out a good method: everything should be inherited from class Entity
